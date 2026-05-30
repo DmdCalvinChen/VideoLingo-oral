@@ -45,9 +45,9 @@ def text_processing_section():
 def process_text():
     with st.spinner("Using Whisper for transcription..."):
         step2_whisperX.transcribe()
-    with st.spinner("Splitting long sentences..."):  
-        step3_1_spacy_split.split_by_spacy()
-        step3_2_splitbymeaning.split_sentences_by_meaning()
+    with st.spinner("Semantic Chunking based on words..."):
+        import core.step3_semantic_chunking
+        core.step3_semantic_chunking.split_by_semantic_chunking()
     with st.spinner("Summarizing and translating..."):
         step4_1_summarize.get_summary()
         if load_key("pause_before_translate"):
