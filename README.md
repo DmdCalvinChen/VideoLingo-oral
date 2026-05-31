@@ -17,13 +17,13 @@ VideoLingo is an all-in-one video translation, localization, and dubbing tool ai
 Key features:
 - 🎥 YouTube video download via yt-dlp
 
-- **🎙️ Word-level and Low-illusion subtitle recognition with WhisperX**
+- **🎙️ Word-level Subtitle Recognition:** Powered by WhisperX for low-illusion, precise word-level timestamping.
 
-- **📝 NLP and AI-powered subtitle segmentation**
+- **🧠 Zero-Loss LLM Semantic Chunking:** Replaces mechanical NLP (e.g., SpaCy) with intelligent LLM punctuation and logic-based chunking that reads exact word outputs without modifying native vocabulary.
 
-- **📚 Custom + AI-generated terminology for coherent translation**
+- **📚 Context-Aware Paragraph Translation:** Groups sub-clauses naturally into paragraph-level prompts with terminology injection, empowering the LLM to freely restructure target language phrasing while preserving perfect 1:1 timeline mapping.
 
-- **🔄 3-step Translate-Reflect-Adaptation for cinematic quality**
+- **🪡 Robust Two-Pointer Alignment:** A custom alignment engine mathematically matches translated blocks back to their precise word-level audio timestamps natively.
 
 - **✅ Netflix-standard, Single-line subtitles Only**
 
