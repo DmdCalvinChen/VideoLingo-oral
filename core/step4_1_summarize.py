@@ -17,11 +17,20 @@ def combine_chunks():
     combined_text = ' '.join(cleaned_sentences)
     return combined_text[:load_key('summary_length')]  #! Return only the first x characters
 
+import re
+
 def search_things_to_note_in_prompt(sentence):
-    """Search for terms to note in the given sentence"""
+    """Search for terms to note in the given sentence using word boundaries to prevent partial matches"""
     with open(TERMINOLOGY_JSON_PATH, 'r', encoding='utf-8') as file:
         things_to_note = json.load(file)
-    things_to_note_list = [term['src'] for term in things_to_note['terms'] if term['src'].lower() in sentence.lower()]
+
+    things_to_note_list = []
+    for term in things_to_note.get('terms', []):
+        src_term = term['src']
+        # Use regex word boundaries for precise matching, handling plurals/variations lightly
+        if re.search(rf'\b{re.escape(src_term)}\b', sentence, flags=re.IGNORECASE):
+            things_to_note_list.append(src_term)
+
     if things_to_note_list:
         prompt = '\n'.join(
             f'{i+1}. "{term["src"]}": "{term["tgt"]}",'

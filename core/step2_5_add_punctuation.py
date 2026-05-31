@@ -13,14 +13,24 @@ def strip_punctuation(text):
     text = re.sub(r'\s+', ' ', text)
     return text.strip().lower()
 
-def add_punctuation(words):
+def add_punctuation(words, previous_anchor=""):
     raw_text = " ".join(words)
+
+    anchor_prompt = ""
+    if previous_anchor:
+        anchor_prompt = f"""
+### CONTEXT ANCHOR (FROM PREVIOUS BATCH)
+The previous text ended with this sentence: "{previous_anchor}"
+Your task is to continue the punctuation from here. DO NOT include the anchor in your final output, but use it to understand if the first few words of this new batch belong to the previous sentence or start a new one.
+"""
+
     prompt = f"""
 ### Role
 You are an expert transcriber and linguist.
 
 ### Task
 You will be provided with a raw stream of words without any punctuation. Your task is to add appropriate punctuation (commas, periods, question marks, etc.) and capitalization to make the text grammatically correct and highly readable.
+{anchor_prompt}
 
 ### ABSOLUTE RULE: DO NOT ADD OR REMOVE ANY WORDS
 You must use the EXACT same words in the EXACT same order.
@@ -53,26 +63,38 @@ Provide a JSON object with a single key "punctuated_text" containing the final s
         return {"status": "success", "message": "Success"}
 
     try:
-        response = ask_gpt(prompt, response_json=True, log_title='punctuation', valid_def=valid_punctuation, reasoning_effort='medium')
+        response = ask_gpt(prompt, response_json=True, log_title='punctuation', valid_def=valid_punctuation, reasoning_effort='low')
         return response["punctuated_text"]
     except Exception as e:
         print(f"Error during punctuation API call: {e}")
         return raw_text
 
+def get_last_sentence(text):
+    # Extremely simple heuristic to grab the last chunk of punctuated text as an anchor
+    sentences = re.split(r'(?<=[.!?]) +', text)
+    if sentences:
+        return sentences[-1]
+    return text[-100:]
+
 def add_punctuation_main():
-    print("Starting LLM punctuation phase...")
+    print("Starting LLM punctuation phase with sliding anchor...")
     if not os.path.exists(CLEANED_CHUNKS_FILE):
         return
     df = pd.read_excel(CLEANED_CHUNKS_FILE)
     words = df['text'].apply(lambda x: str(x).strip('"')).tolist()
-    batch_size = 400
+
+    # Using 1000 words per batch for cost/context efficiency
+    batch_size = 1000
     word_batches = [words[i:i + batch_size] for i in range(0, len(words), batch_size)]
 
     all_punctuated_text = []
+    previous_anchor = ""
+
     for idx, batch in enumerate(word_batches):
         print(f"Adding punctuation to batch {idx+1}/{len(word_batches)}...")
-        punctuated_batch = add_punctuation(batch)
+        punctuated_batch = add_punctuation(batch, previous_anchor)
         all_punctuated_text.append(punctuated_batch)
+        previous_anchor = get_last_sentence(punctuated_batch)
 
     full_text = " ".join(all_punctuated_text)
     os.makedirs(os.path.dirname(PUNCTUATED_TEXT_FILE), exist_ok=True)
