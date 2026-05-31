@@ -45,16 +45,19 @@ def text_processing_section():
 def process_text():
     with st.spinner("Using Whisper for transcription..."):
         step2_whisperX.transcribe()
+    with st.spinner("Adding Punctuation..."):
+        from core import step2_5_add_punctuation
+        step2_5_add_punctuation.add_punctuation_main()
     with st.spinner("Semantic Chunking based on words..."):
-        import core.step3_semantic_chunking
-        core.step3_semantic_chunking.split_by_semantic_chunking()
+        from core import step3_semantic_chunking
+        step3_semantic_chunking.split_by_semantic_chunking()
     with st.spinner("Summarizing and translating..."):
         step4_1_summarize.get_summary()
         if load_key("pause_before_translate"):
             input("⚠️ PAUSE_BEFORE_TRANSLATE. Go to `output/log/terminology.json` to edit terminology. Then press ENTER to continue...")
         step4_2_translate_all.translate_all()
     with st.spinner("Processing and aligning subtitles..."): 
-        step5_splitforsub.split_for_sub_main()
+        # step5_splitforsub.split_for_sub_main()  # Replaced by robust logic upstream
         step6_generate_final_timeline.align_timestamp_main()
     with st.spinner("Merging subtitles to video..."):
         step7_merge_sub_to_vid.merge_subtitles_to_video()

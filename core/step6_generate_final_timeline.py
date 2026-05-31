@@ -64,47 +64,48 @@ def show_difference(str1, str2):
     print(f"Difference indices: {diff_positions}")
 
 def get_sentence_timestamps(df_words, df_sentences):
+    """
+    Robust Two-pointer word-level matching instead of string substring matching.
+    This guarantees that as long as the LLM kept the original word order,
+    the timestamps will perfectly align without string sliding issues.
+    """
+    words_list = df_words['text'].apply(lambda x: remove_punctuation(str(x).strip('"').lower())).tolist()
+    starts = df_words['start'].tolist()
+    ends = df_words['end'].tolist()
+    
     time_stamp_list = []
+    global_word_idx = 0
     
-    # Build complete string and position mapping
-    full_words_str = ''
-    position_to_word_idx = {}
-    
-    for idx, word in enumerate(df_words['text']):
-        clean_word = remove_punctuation(word.lower())
-        start_pos = len(full_words_str)
-        full_words_str += clean_word
-        for pos in range(start_pos, len(full_words_str)):
-            position_to_word_idx[pos] = idx
-    
-    current_pos = 0
     for idx, sentence in df_sentences['Source'].items():
-        clean_sentence = remove_punctuation(sentence.lower()).replace(" ", "")
-        sentence_len = len(clean_sentence)
+        sent_words = [remove_punctuation(w.lower()) for w in sentence.split() if remove_punctuation(w.lower())]
         
-        match_found = False
-        while current_pos <= len(full_words_str) - sentence_len:
-            if full_words_str[current_pos:current_pos+sentence_len] == clean_sentence:
-                start_word_idx = position_to_word_idx[current_pos]
-                end_word_idx = position_to_word_idx[current_pos + sentence_len - 1]
-                
-                time_stamp_list.append((
-                    float(df_words['start'][start_word_idx]),
-                    float(df_words['end'][end_word_idx])
-                ))
-                
-                current_pos += sentence_len
-                match_found = True
-                break
-            current_pos += 1
+        if not sent_words:
+            # Fallback if sentence is entirely punctuation
+            time_stamp_list.append((float(starts[global_word_idx]), float(ends[global_word_idx])))
+            continue
             
-        if not match_found:
-            print(f"\n⚠️ Warning: No exact match found for sentence: {sentence}")
-            show_difference(clean_sentence, 
-                          full_words_str[current_pos:current_pos+len(clean_sentence)])
-            print("\nOriginal sentence:", df_sentences['Source'][idx])
-            raise ValueError("❎ No match found for sentence.")
-    
+        # The start time corresponds to the first word in the sentence
+        # We search forward in case some words were skipped/hallucinated
+        while global_word_idx < len(words_list) and words_list[global_word_idx] != sent_words[0]:
+            global_word_idx += 1
+
+        if global_word_idx >= len(words_list):
+            print(f"\n⚠️ Warning: Lost alignment track at sentence: '{sentence}'")
+            raise ValueError("Alignment tracking lost!")
+
+        start_idx = global_word_idx
+
+        # Advance for each word in the sentence
+        for w in sent_words:
+            while global_word_idx < len(words_list) and words_list[global_word_idx] != w:
+                global_word_idx += 1
+            if global_word_idx < len(words_list):
+                global_word_idx += 1
+
+        end_idx = min(global_word_idx - 1, len(words_list) - 1)
+
+        time_stamp_list.append((float(starts[start_idx]), float(ends[end_idx])))
+
     return time_stamp_list
 
 def align_timestamp(df_text, df_translate, subtitle_output_configs: list, output_dir: str, for_display: bool = True):

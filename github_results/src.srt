@@ -1,0 +1,13 @@
+1
+00:00:00,500 --> 00:00:04,000
+Welcome to Mechanotherapy in Orthodontics
+
+
+2
+00:00:04,000 --> 00:00:07,100
+, Volume Two, Anchorage Part Three.
+
+
+3
+00:00:07,100 --> 00:00:09,500
+And this is the end of video.

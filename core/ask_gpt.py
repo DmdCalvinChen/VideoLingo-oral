@@ -43,7 +43,7 @@ def check_ask_gpt_history(prompt, model, log_title):
                     return item["response"]
     return False
 
-def ask_gpt(prompt, response_json=True, valid_def=None, log_title='default'):
+def ask_gpt(prompt, response_json=True, valid_def=None, log_title='default', reasoning_effort='medium'):
     api_set = load_key("api")
     llm_support_json = load_key("llm_support_json")
     with LOCK:
@@ -54,7 +54,15 @@ def ask_gpt(prompt, response_json=True, valid_def=None, log_title='default'):
     if not api_set["key"]:
         raise ValueError(f"⚠️API_KEY is missing")
     
-    messages = [{"role": "user", "content": prompt}]
+    # SenseNova's JSON parsing requires system prompt to instruct JSON output
+    system_prompt = "You are a helpful assistant."
+    if response_json:
+        system_prompt += " Please output your response in JSON format."
+
+    messages = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": prompt}
+    ]
     
     base_url = api_set["base_url"].strip('/') + '/v1' if 'v1' not in api_set["base_url"] else api_set["base_url"]
     client = OpenAI(api_key=api_set["key"], base_url=base_url)
@@ -69,6 +77,8 @@ def ask_gpt(prompt, response_json=True, valid_def=None, log_title='default'):
             }
             if response_format is not None:
                 completion_args["response_format"] = response_format
+            if api_set["model"] == "deepseek-v4-flash":
+                completion_args["extra_body"] = {"reasoning_effort": reasoning_effort}
                 
             response = client.chat.completions.create(**completion_args)
             
