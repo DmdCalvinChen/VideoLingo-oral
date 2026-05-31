@@ -88,15 +88,17 @@ def process_input_file(file):
     return {'video_file': video_file}
 
 def split_sentences():
-    step3_1_spacy_split.split_by_spacy()
-    step3_2_splitbymeaning.split_sentences_by_meaning()
+    from core import step2_5_add_punctuation
+    from core import step3_semantic_chunking
+    step2_5_add_punctuation.add_punctuation_main()
+    step3_semantic_chunking.split_by_semantic_chunking()
 
 def summarize_and_translate():
     step4_1_summarize.get_summary()
     step4_2_translate_all.translate_all()
 
 def process_and_align_subtitles():
-    step5_splitforsub.split_for_sub_main()
+    # step5_splitforsub is deprecated under the new semantic chunking model
     step6_generate_final_timeline.align_timestamp_main()
 
 def gen_audio_tasks():
