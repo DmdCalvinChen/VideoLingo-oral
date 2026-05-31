@@ -106,11 +106,18 @@ def ask_gpt(prompt, response_json=True, valid_def=None, log_title='default', rea
                 
         except Exception as e:
             if attempt < max_retries - 1:
-                if isinstance(e, RequestException):
+                error_msg = str(e)
+                if "429" in error_msg or "rpm exhausted" in error_msg.lower():
+                    # Handle rate limit specifically using exponential backoff
+                    sleep_time = 5 * (2 ** attempt)
+                    print(f"Rate limit hit (429). Retrying in {sleep_time}s ({attempt + 1}/{max_retries})...")
+                    time.sleep(sleep_time)
+                elif isinstance(e, RequestException):
                     print(f"Request error: {e}. Retrying ({attempt + 1}/{max_retries})...")
+                    time.sleep(2)
                 else:
                     print(f"Unexpected error occurred: {e}\nRetrying...")
-                time.sleep(2)
+                    time.sleep(2)
             else:
                 raise Exception(f"Still failed after {max_retries} attempts: {e}")
     with LOCK:

@@ -36,8 +36,8 @@ subtitle:
 # * Summary length, set low to 2k if using local LLM
 summary_length: 8000
 
-# *Number of LLM multi-threaded accesses, set to 1 if using local LLM
-max_workers: 4
+# *Number of LLM multi-threaded accesses, set to 1 if using local LLM or API with strict RPM limits (e.g. 302.ai Sensnova)
+max_workers: 1
 # *Maximum number of words for the first rough cut, below 18 will cut too finely affecting translation, above 22 is too long and will make subsequent subtitle splitting difficult to align
 max_split_length: 20
 
