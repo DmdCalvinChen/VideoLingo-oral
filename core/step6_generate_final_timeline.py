@@ -9,8 +9,7 @@ import autocorrect_py as autocorrect
 console = Console()
 
 CLEANED_CHUNKS_FILE = 'output/log/cleaned_chunks.xlsx'
-TRANSLATION_RESULTS_FOR_SUBTITLES_FILE = 'output/log/translation_results_for_subtitles.xlsx'
-TRANSLATION_RESULTS_REMERGED_FILE = 'output/log/translation_results_remerged.xlsx'
+TRANSLATION_RESULTS_FILE = 'output/log/translation_results.xlsx'
 
 OUTPUT_DIR = 'output'
 AUDIO_OUTPUT_DIR = 'output/audio'
@@ -158,17 +157,15 @@ def clean_translation(x):
 def align_timestamp_main():
     df_text = pd.read_excel(CLEANED_CHUNKS_FILE)
     df_text['text'] = df_text['text'].str.strip('"').str.strip()
-    df_translate = pd.read_excel(TRANSLATION_RESULTS_FOR_SUBTITLES_FILE)
+    df_translate = pd.read_excel(TRANSLATION_RESULTS_FILE)
     df_translate['Translation'] = df_translate['Translation'].apply(clean_translation)
     
     align_timestamp(df_text, df_translate, SUBTITLE_OUTPUT_CONFIGS, OUTPUT_DIR)
     console.print(Panel("[bold green]🎉📝 Subtitles generation completed! Please check in the `output` folder 👀[/bold green]"))
 
     # for audio
-    df_translate_for_audio = pd.read_excel(TRANSLATION_RESULTS_REMERGED_FILE) # use remerged file to avoid unmatched lines when dubbing
-    df_translate_for_audio['Translation'] = df_translate_for_audio['Translation'].apply(clean_translation)
-    
-    align_timestamp(df_text, df_translate_for_audio, AUDIO_SUBTITLE_OUTPUT_CONFIGS, AUDIO_OUTPUT_DIR)
+    # Using the exact same perfect chunked file for audio dubbing since we do zero-loss processing now
+    align_timestamp(df_text, df_translate, AUDIO_SUBTITLE_OUTPUT_CONFIGS, AUDIO_OUTPUT_DIR)
     console.print(Panel("[bold green]🎉📝 Audio subtitles generation completed! Please check in the `output/audio` folder 👀[/bold green]"))
     
 
