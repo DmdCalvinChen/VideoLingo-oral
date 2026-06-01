@@ -1,4 +1,4 @@
 @echo off
-call conda activate videolingo
+call conda activate aurasub
 python -m streamlit run st.py
 pause

@@ -45,4 +45,4 @@ def openai_tts(text, save_path):
         raise
 
 if __name__ == "__main__":
-    openai_tts("Hi! Welcome to VideoLingo!", "test.wav")
+    openai_tts("Hi! Welcome to AuraSub!", "test.wav")

@@ -113,11 +113,8 @@ def process_audio():
     st.balloons()
 
 def main():
-    logo_col, _ = st.columns([1,1])
-    with logo_col:
-        st.image("docs/logo.png", use_column_width=True)
+    st.markdown("<h1 style='text-align: center; color: #144070; margin-bottom: 30px;'>AuraSub</h1>", unsafe_allow_html=True)
     st.markdown(button_style, unsafe_allow_html=True)
-    st.markdown("<p style='font-size: 20px; color: #808080;'>Hello, welcome to VideoLingo. This project is currently under construction. If you encounter any issues, please feel free to ask questions on Github! You can also use VideoLingo on our website now: <a href='https://videolingo.io' target='_blank'>videolingo.io</a></p>", unsafe_allow_html=True)
     # add settings
     with st.sidebar:
         page_setting()

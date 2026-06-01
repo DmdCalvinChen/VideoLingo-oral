@@ -72,9 +72,15 @@ docker build -t aurasub .
 docker run -d -p 8501:8501 --gpus all aurasub
 ```
 
+## 📝 自定义术语与 ASR 纠错
+AuraSub 拥有强大的基于上下文的发音纠错能力（如将 "to" 自动纠正为 "two"）。如果你有强相关的垂直领域专业术语，可以通过以下步骤进一步提升准确率：
+1. 在项目根目录下，复制 `custom_terms_template.xlsx` 并重命名为 `custom_terms.xlsx`。
+2. 在该表格的第一列填入你的专业术语（如 `buccal`, `Anchorage`）。
+3. 运行项目时，AuraSub 会优先基于你的术语表进行正则级扫描并自动修复原始时间轴中的听写错误。
+
 ## API 配置
 AuraSub 支持 OpenAI-Like 格式的 API 调用，用于驱动核心的语义切分与翻译引擎：
-- 推荐使用具备较强结构化 JSON 输出和推理能力的大模型：`claude-3-5-sonnet-20240620`, `gpt-4o`, `deepseek-v4-flash`, `gemini-2.0-flash-exp` 等。
+- 支持目前市面上的绝大多数主流大模型（能够输出 JSON 格式即可完美跑通该流程）。
 - 配音(TTS)接口支持：`azure-tts`, `openai-tts`, `fish-tts`, `GPT-SoVITS`, `edge-tts` 等。
 
 ## 当前限制

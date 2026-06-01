@@ -15,7 +15,7 @@ This project requires Large Language Models and TTS. For best quality, please us
 Note: Supports OpenAI interface, you can try different models. However, the process involves multi-step reasoning chains and complex JSON formats, **not recommended to use models smaller than 30B**.
 
 ### 2. **TTS API**
-VideoLingo provides multiple TTS integration methods. Here's a comparison (skip if only using translation without dubbing)
+AuraSub provides multiple TTS integration methods. Here's a comparison (skip if only using translation without dubbing)
 
 | TTS Solution | Provider | Pros | Cons | Chinese Effect | Non-Chinese Effect |
 |:---------|:---------|:-----|:-----|:---------|:-----------|
@@ -66,14 +66,14 @@ Go to the [official website](https://fish.audio/en/) to listen and choose voices
 
 1. Check requirements and download the package from [official Yuque docs](https://www.yuque.com/baicaigongchang1145haoyuangong/ib3g1e/dkxgpiy9zb96hob4#KTvnO).
 
-2. Place `GPT-SoVITS-v2-xxx` and `VideoLingo` in the same directory. **Note they should be parallel folders.**
+2. Place `GPT-SoVITS-v2-xxx` and `AuraSub` in the same directory. **Note they should be parallel folders.**
 
 3. Choose one of the following ways to configure the model:
 
    a. Self-trained model:
    - After training, `tts_infer.yaml` under `GPT-SoVITS-v2-xxx\GPT_SoVITS\configs` will have your model path auto-filled. Copy and rename it to `your_preferred_english_character_name.yaml`
    - In the same directory as the `yaml` file, place reference audio named `your_preferred_english_character_name_reference_audio_text.wav` or `.mp3`, e.g. `Huanyuv2_Hello, this is a test audio.wav`
-   - In VideoLingo's sidebar, set `GPT-SoVITS Character` to `your_preferred_english_character_name`.
+   - In AuraSub's sidebar, set `GPT-SoVITS Character` to `your_preferred_english_character_name`.
 
    b. Use pre-trained model:
    - Download my model from [here](https://vip.123pan.cn/1817874751/8137723), extract and overwrite to `GPT-SoVITS-v2-xxx`.
@@ -96,7 +96,7 @@ Go to the [official website](https://fish.audio/en/) to listen and choose voices
    ```
    # Expected directory structure:
    .
-   ├── VideoLingo
+   ├── AuraSub
    │   └── ...
    └── GPT-SoVITS-v2-xxx
        ├── GPT_SoVITS
@@ -110,11 +110,11 @@ Go to the [official website](https://fish.audio/en/) to listen and choose voices
            └── [your SoVITS model file]
    ```
         
-After configuration, select `Reference Audio Mode` in the sidebar (see Yuque docs for details). During dubbing, VideoLingo will automatically open GPT-SoVITS inference API port in the command line, which can be closed manually after completion. Note that stability depends on the base model chosen.</details>
+After configuration, select `Reference Audio Mode` in the sidebar (see Yuque docs for details). During dubbing, AuraSub will automatically open GPT-SoVITS inference API port in the command line, which can be closed manually after completion. Note that stability depends on the base model chosen.</details>
 
 ## 🛠️ Quick Start
 
-VideoLingo supports Windows, macOS and Linux systems, and can run on CPU or GPU.
+AuraSub supports Windows, macOS and Linux systems, and can run on CPU or GPU.
 
 > **Note:** To use NVIDIA GPU acceleration on Windows, please complete the following steps first:
 > 1. Install [CUDA Toolkit 12.6](https://developer.download.nvidia.com/compute/cuda/12.6.0/local_installers/cuda_12.6.0_560.76_windows.exe)
@@ -127,18 +127,18 @@ VideoLingo supports Windows, macOS and Linux systems, and can run on CPU or GPU.
 > - macOS: ```brew install ffmpeg``` (via [Homebrew](https://brew.sh/))
 > - Linux: ```sudo apt install ffmpeg``` (Debian/Ubuntu) or ```sudo dnf install ffmpeg``` (Fedora)
 
-Before installing VideoLingo, ensure you have installed Git and Anaconda.
+Before installing AuraSub, ensure you have installed Git and Anaconda.
 
 1. Clone the project:
    ```bash
-   git clone https://github.com/Huanshere/VideoLingo.git
-   cd VideoLingo
+   git clone https://github.com/Huanshere/AuraSub.git
+   cd AuraSub
    ```
 
 2. Create and activate virtual environment (**must be python=3.10.0**):
    ```bash
-   conda create -n videolingo python=3.10.0 -y
-   conda activate videolingo
+   conda create -n aurasub python=3.10.0 -y
+   conda activate aurasub
    ```
 
 3. Run installation script:

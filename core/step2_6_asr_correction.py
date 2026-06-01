@@ -15,14 +15,14 @@ def get_correction_prompt(text, terms_list):
     terms_str = ", ".join(terms_list)
     prompt = f"""
 ### Role
-You are a professional ASR (Automatic Speech Recognition) correction expert in the medical/orthodontic domain.
+You are a professional ASR (Automatic Speech Recognition) correction expert.
 
 ### Task
-You are given a text of 1000 words. Whisper ASR might have misrecognized some professional terms due to homophones (phonetically similar words).
-Your job is to identify misrecognized words and propose corrections.
+You are given a chunk of text. Whisper ASR might have misrecognized some words due to homophones (phonetically similar words).
+Your job is to identify misrecognized words and propose corrections based on context.
 
-### Professional Terminology List (Reference):
-[{terms_str}]
+### Professional Terminology List (Optional Reference):
+[{terms_str}] (If empty, rely entirely on context to fix general phonetic errors).
 
 ### ABSOLUTE RULES
 1. YOU MUST NOT EDIT THE TEXT DIRECTLY.
@@ -110,8 +110,9 @@ def asr_correction_main():
 
     terms_list = extract_terms_list()
     if not terms_list:
-        print("No terminology found. Skipping ASR correction to save tokens.")
-        return
+        print("No custom terminology found. Proceeding with general context-based ASR correction.")
+    else:
+        print(f"📖 Custom Terms Loaded: {len(terms_list)} terms")
 
     with open(PUNCTUATED_TEXT_FILE, 'r', encoding='utf-8') as f:
         full_text = f.read()

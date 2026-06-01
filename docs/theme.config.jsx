@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router'
 import { useConfig } from 'nextra-theme-docs'
 
-const title = 'VideoLingo'
+const title = 'AuraSub'
 
 export default {
 	logo: <span>{title}</span>,
 	project: {
-		link: 'https://github.com/Huanshere/VideoLingo',
+		link: 'https://github.com/Huanshere/AuraSub',
 	},
 	footer: {
 		text: <span>{new Date().getFullYear()} © {title}.</span>,
@@ -19,7 +19,7 @@ export default {
 	head: () => {
 		const { asPath, defaultLocale, locale } = useRouter()
 		const { frontMatter } = useConfig()
-		const url = 'https://videolingo.io' + (defaultLocale === locale ? asPath : `/${locale}${asPath}`)
+		const url = 'https://aurasub.io' + (defaultLocale === locale ? asPath : `/${locale}${asPath}`)
 
 		return (
 			<>

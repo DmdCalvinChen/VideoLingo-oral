@@ -19,7 +19,7 @@ export default function Hero({ title, description, videoSrc }: HeroProps) {
 						<p className="mx-auto max-w-[700px] text-lg">{description}</p>
 					</div>
 					<div className="flex space-x-4 mt-8">
-						<Link href="https://videolingo.io">
+						<Link href="https://aurasub.io">
 							<Button className="rounded-lg" size="lg">
 								Try Now for Free
 							</Button>

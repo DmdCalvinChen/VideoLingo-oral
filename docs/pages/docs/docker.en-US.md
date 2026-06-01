@@ -1,6 +1,6 @@
 # Docker Installation
 
-VideoLingo provides a Dockerfile that you can use to build the current VideoLingo package. Here are detailed instructions for building and running:
+AuraSub provides a Dockerfile that you can use to build the current AuraSub package. Here are detailed instructions for building and running:
 
 ## System Requirements
 
@@ -11,31 +11,31 @@ VideoLingo provides a Dockerfile that you can use to build the current VideoLing
 
 ```bash
 # Build the Docker image
-docker build -t videolingo .
+docker build -t aurasub .
 
 # Run the Docker container
-docker run -d -p 8501:8501 --gpus all videolingo
+docker run -d -p 8501:8501 --gpus all aurasub
 ```
 
 ### Pulling from DockerHub
 
-You can directly pull the pre-built VideoLingo image from DockerHub:
+You can directly pull the pre-built AuraSub image from DockerHub:
 
 ```bash
-docker pull rqlove/videolingo:latest
+docker pull rqlove/aurasub:latest
 ```
 
 After pulling, use the following command to run the container:
 
 ```bash
-docker run -d -p 8501:8501 --gpus all rqlove/videolingo:latest
+docker run -d -p 8501:8501 --gpus all rqlove/aurasub:latest
 ```
 
 Note: 
 - The `-d` parameter runs the container in the background
 - `-p 8501:8501` maps port 8501 of the container to port 8501 of the host
 - `--gpus all` enables support for all available GPUs
-- Make sure to use the full image name `rqlove/videolingo:latest`
+- Make sure to use the full image name `rqlove/aurasub:latest`
 
 ## Models
 
@@ -44,7 +44,7 @@ The Whisper model is not included in the image and will be automatically downloa
 After downloading, use the following command to run the container, mounting the model file into the container:
 
 ```bash
-docker run -d -p 8501:8501 --gpus all -v /path/to/your/model:/app/_model_cache rqlove/videolingo:latest
+docker run -d -p 8501:8501 --gpus all -v /path/to/your/model:/app/_model_cache rqlove/aurasub:latest
 ```
 
 Please replace `/path/to/your/model` with the actual local path where you downloaded the model file.

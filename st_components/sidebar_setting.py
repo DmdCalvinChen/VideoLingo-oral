@@ -23,6 +23,35 @@ def page_setting():
             if st.button("📡", key="api"):
                 st.toast("API Key is valid" if check_api() else "API Key is invalid", 
                         icon="✅" if check_api() else "❌")
+        
+        st.markdown("---")
+        st.markdown("**🧠 Thinking / Reasoning Effort**")
+        reasoning_options = ["none", "low", "medium", "high"]
+        
+        r1, r2 = st.columns(2)
+        with r1:
+            curr_hard = load_key("reasoning.hard_tasks") or "high"
+            hard_tasks_effort = st.selectbox(
+                "Hard Tasks", 
+                options=reasoning_options,
+                index=reasoning_options.index(curr_hard) if curr_hard in reasoning_options else 2,
+                help="Chunking, ASR Correction, Expressive Translation, Punctuation"
+            )
+            if hard_tasks_effort != curr_hard:
+                update_key("reasoning.hard_tasks", hard_tasks_effort)
+                
+        with r2:
+            curr_easy = load_key("reasoning.easy_tasks") or "low"
+            easy_tasks_effort = st.selectbox(
+                "Easy Tasks", 
+                options=reasoning_options,
+                index=reasoning_options.index(curr_easy) if curr_easy in reasoning_options else 1,
+                help="Summarization, Direct Translation"
+            )
+            if easy_tasks_effort != curr_easy:
+                update_key("reasoning.easy_tasks", easy_tasks_effort)
+                
+        st.caption("⚠️ **Tip:** Not recommended to use `high`. Translation tasks are not that complex.")
     
     with st.expander("Subtitles Settings", expanded=True):
         c1, c2 = st.columns(2)

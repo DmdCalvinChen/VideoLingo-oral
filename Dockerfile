@@ -25,9 +25,9 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Workaround for CUDA compatibility issues
 RUN ldconfig /usr/local/cuda-$(echo $CUDA_VERSION | cut -d. -f1,2)/compat/
 
-# Set working directory and clone repository
+# Set working directory and copy local code
 WORKDIR /app
-RUN git clone https://github.com/Huanshere/VideoLingo.git .
+COPY . .
 
 # Install PyTorch and torchaudio
 RUN pip install torch==2.0.0 torchaudio==2.0.0 --index-url https://download.pytorch.org/whl/cu118
@@ -39,7 +39,6 @@ RUN rm -rf .git
 RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
 # Install dependencies
-COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Set CUDA-related environment variables

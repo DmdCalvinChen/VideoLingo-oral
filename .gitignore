@@ -173,3 +173,9 @@ runtime/
 dev/
 installer_files/
 .secret
+
+# Custom terms and generated testing scripts
+custom_terms.xlsx
+generate_terms.py
+.secret
+

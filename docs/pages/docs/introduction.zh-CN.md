@@ -1,10 +1,10 @@
-# VideoLingo: 连接世界的每一帧
+# AuraSub: 连接世界的每一帧
 
 **QQ 群：875297969**
 
-## 🌟 简介（[在线体验！](https://videolingo.io)）
+## 🌟 简介（[在线体验！](https://aurasub.io)）
 
-VideoLingo 是一站式视频翻译本地化配音工具，能够一键生成 Netflix 级别的高质量字幕，告别生硬机翻，告别多行字幕，还能加上高质量的克隆配音，让全世界的知识能够跨越语言的障碍共享。
+AuraSub 是一站式视频翻译本地化配音工具，能够一键生成 Netflix 级别的高质量字幕，告别生硬机翻，告别多行字幕，还能加上高质量的克隆配音，让全世界的知识能够跨越语言的障碍共享。
 
 主要特点和功能：
 - 🎥 使用 yt-dlp 从 Youtube 链接下载视频
@@ -73,15 +73,15 @@ https://github.com/user-attachments/assets/47d965b2-b4ab-4a0b-9d08-b49a7bf3508c
 1. 克隆仓库
 
 ```bash
-git clone https://github.com/Huanshere/VideoLingo.git
-cd VideoLingo
+git clone https://github.com/Huanshere/AuraSub.git
+cd AuraSub
 ```
 
 2. 安装依赖（需要 `python=3.10`）
 
 ```bash
-conda create -n videolingo python=3.10.0 -y
-conda activate videolingo
+conda create -n aurasub python=3.10.0 -y
+conda activate aurasub
 python install.py
 ```
 
@@ -95,8 +95,8 @@ streamlit run st.py
 还可以选择使用 Docker（要求 CUDA 12.4 和 NVIDIA Driver 版本 >550），详见[Docker文档](/docs/pages/docs/docker.zh-CN.md)：
 
 ```bash
-docker build -t videolingo .
-docker run -d -p 8501:8501 --gpus all videolingo
+docker build -t aurasub .
+docker run -d -p 8501:8501 --gpus all aurasub
 ```
 
 ## API
@@ -126,10 +126,10 @@ docker run -d -p 8501:8501 --gpus all videolingo
 ## 📬 联系我们
 
 - 加入我们的 QQ 群寻求解答：875297969
-- 在 GitHub 上提交 [Issues](https://github.com/Huanshere/VideoLingo/issues) 或 [Pull Requests](https://github.com/Huanshere/VideoLingo/pulls)
+- 在 GitHub 上提交 [Issues](https://github.com/Huanshere/AuraSub/issues) 或 [Pull Requests](https://github.com/Huanshere/AuraSub/pulls)
 - 关注我的 Twitter：[@Huanshere](https://twitter.com/Huanshere)
-- 联系邮箱：team@videolingo.io
+- 联系邮箱：team@aurasub.io
 
 ## ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Huanshere/VideoLingo&type=Timeline)](https://star-history.com/#Huanshere/VideoLingo&Timeline)
+[![Star History Chart](https://api.star-history.com/svg?repos=Huanshere/AuraSub&type=Timeline)](https://star-history.com/#Huanshere/AuraSub&Timeline)
