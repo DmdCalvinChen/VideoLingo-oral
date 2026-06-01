@@ -3,8 +3,8 @@ version: "2.1.2"
 ## ======================== Basic Settings ======================== ##
 # API settings (⚠️ WARNING: Do not put real API keys here! Create a .secret file in the root directory instead. See .secret_template for reference)
 api:
-  key: 'YOUR_API_KEY_HERE'
-  base_url: 'YOUR_BASE_URL_HERE'
+  key: 'not here'
+  base_url: 'https://api.openai.com/v1'
   model: 'deepseek-v4-flash'
 
 # Language settings, written into the prompt, can be described in natural language
