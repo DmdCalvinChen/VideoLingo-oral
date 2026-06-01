@@ -1,41 +1,27 @@
 <div align="center">
 
-<img src="/docs/logo.png" alt="VideoLingo Logo" height="140">
-
-# 连接世界每一帧
-
-[Website](https://videolingo.io) | [Documentation](https://docs.videolingo.io/docs/start)
+# AuraSub
+**面向专业内容的极致语义翻译与配音利器**
 
 [**English**](/README.md)｜[**中文**](/i18n/README.zh.md)
 
-**QQ群：875297969**
-
 </div>
 
-## 🌟 简介（[免费在线体验！](https://videolingo.io)）
+## 🌟 简介
 
-VideoLingo 是一站式视频翻译本地化配音工具，能够一键生成 Netflix 级别的高质量字幕，告别生硬机翻，告别多行字幕，还能加上高质量的克隆配音，让全世界的知识能够跨越语言的障碍共享。
+**AuraSub** 是对原 VideoLingo 项目的一次深度重构与独立演进。与市面上主打“通用娱乐翻译”的工具截然不同，AuraSub 是专门为**专业知识分享、学术演讲、硬核技术教程**量身打造的翻译利器。
 
-主要特点和功能：
-- 🎥 使用 yt-dlp 从 Youtube 链接下载视频
+我们极致追求**精确的语义断句**，并强制执行**Netflix 标准的单行字幕显示（绝无双行字幕出现）**。通过彻底淘汰传统的机器 NLP（如 SpaCy）物理切片，AuraSub 引入了基于大语言模型（LLM）的“零损耗语义切分架构”，确保了在毫秒级精确对齐原始音频时间戳的同时，呈现出上下文完美连贯的专业翻译。
 
-- **🎙️ 单词级精准字幕识别：** 使用 WhisperX 提取精确到词级别的底层时间戳，确保后续对齐无死角。
-
-- **🧠 零损耗大模型语义断句：** 彻底抛弃传统机器 NLP (如 SpaCy) 的机械物理切分，利用大模型在保留所有原词的基础上，智能进行添加标点与语义从句的逻辑切分。
-
-- **📚 段落级上下文感知翻译：** 打破死板的逐句翻译，将切分好的字幕按段落打包送入大模型，结合自定义术语库，让 LLM 跨语言自由调整语序并意译，同时完美映射回原始句号。
-
-- **🪡 强效双指针时间轴对齐：** 通过自定义的单词级贪心匹配对齐算法，将翻译好的精美长句无损绑定回底层精确时间戳。
-
-- **✅ 按照 Netflix 标准检查单行长度，绝无双行字幕**
-
-- **🗣️ 支持 GPT-SoVITS、Azure、OpenAI 等多种配音方案**
-
-- 🚀 整合包一键启动，在 streamlit 中一键出片
-
-- 📝 详细记录每步操作日志，支持随时中断和恢复进度
-
-与同类项目相比的优势：**绝无多行字幕，最佳的翻译质量，无缝的配音体验**
+### 核心特性：
+- 🎥 **视频抓取：** 使用 yt-dlp 直接下载 YouTube 等视频源。
+- **🎙️ 单词级精准底座：** 使用 WhisperX 提取极低幻觉、精确到词级别的底层时间戳。
+- **🧠 零损耗大模型语义断句：** 彻底抛弃传统 NLP 机械切分。利用 LLM 在保留所有原词的基础上，智能进行标点推断与逻辑从句切分，从根本上防止词汇丢失与时间轴错乱。
+- **📚 正则级术语控制与段落级翻译：** 打破死板的逐句翻译，将切分好的逻辑语义块按段落打包送入 LLM。引入**精确的正则表达式单词边界（Regex Word Boundaries）**术语匹配，彻底杜绝音近词引发的大模型幻觉（如将 buckle 误识为 buccal），让 LLM 在跨语言重构语序时既能意译，又能保持专业名词的绝对严谨。
+- **🪡 强效双指针时间轴对齐：** 通过精心设计的单词级双指针匹配算法，将翻译好的长句1:1无损绑定回底层的时间戳，彻底消灭了以往版本中的“翻译丢失时间轴”报错。
+- **✅ 坚守 Netflix 单行标准：** 强制控制输出格式，绝无双行字幕，提供极其干净、专业的学术级观影体验。
+- **🗣️ 多平台高质量配音：** 无缝对接 GPT-SoVITS、Azure、OpenAI TTS、Fish-TTS 等行业顶尖配音方案。
+- 🚀 **Streamlit 极简交互：** 一键启动，流程清晰。
 
 ## 🎥 效果演示
 
@@ -43,14 +29,14 @@ VideoLingo 是一站式视频翻译本地化配音工具，能够一键生成 Ne
 <tr>
 <td width="50%">
 
-### 俄语翻译
+### 高质量专业翻译演示
 ---
 https://github.com/user-attachments/assets/25264b5b-6931-4d39-948c-5a1e4ce42fa7
 
 </td>
 <td width="50%">
 
-### GPT-SoVITS配音
+### GPT-SoVITS 高级配音
 ---
 https://github.com/user-attachments/assets/47d965b2-b4ab-4a0b-9d08-b49a7bf3508c
 
@@ -60,13 +46,11 @@ https://github.com/user-attachments/assets/47d965b2-b4ab-4a0b-9d08-b49a7bf3508c
 
 ### 语言支持
 
-**输入语言支持：**
+**输入语言：**
+🇺🇸 英语 | 🇷🇺 俄语 | 🇫🇷 法语 | 🇩🇪 德语 | 🇮🇹 意大利语 | 🇪🇸 西班牙语 | 🇯🇵 日语 | 🇨🇳 中文
 
-🇺🇸 英语 🤩  |  🇷🇺 俄语 😊  |  🇫🇷 法语 🤩  |  🇩🇪 德语 🤩  |  🇮🇹 意大利语 🤩  |  🇪🇸 西班牙语 🤩  |  🇯🇵 日语 😐  |  🇨🇳 中文* 😊
-
-> *中文使用单独的标点增强后的 whisper 模型
-
-**翻译语言支持所有语言，配音语言取决于选取的TTS。**
+**翻译与配音：**
+翻译支持所有主流 LLM 所涵盖的语言。配音语言的支持情况取决于您所选择的 TTS 接口类型。
 
 ## 安装
 
@@ -84,15 +68,15 @@ https://github.com/user-attachments/assets/47d965b2-b4ab-4a0b-9d08-b49a7bf3508c
 1. 克隆仓库
 
 ```bash
-git clone https://github.com/Huanshere/VideoLingo.git
-cd VideoLingo
+git clone https://github.com/YourOrg/AuraSub.git
+cd AuraSub
 ```
 
 2. 安装依赖（需要 `python=3.10`）
 
 ```bash
-conda create -n videolingo python=3.10.0 -y
-conda activate videolingo
+conda create -n aurasub python=3.10.0 -y
+conda activate aurasub
 python install.py
 ```
 
@@ -103,46 +87,29 @@ streamlit run st.py
 ```
 
 ### Docker
-还可以选择使用 Docker（要求 CUDA 12.4 和 NVIDIA Driver 版本 >550），详见[Docker文档](/docs/pages/docs/docker.zh-CN.md)：
+还可以选择使用 Docker（要求 CUDA 12.4 和 NVIDIA Driver 版本 >550）：
 
 ```bash
-docker build -t videolingo .
-docker run -d -p 8501:8501 --gpus all videolingo
+docker build -t aurasub .
+docker run -d -p 8501:8501 --gpus all aurasub
 ```
 
-## API
-本项目支持 OpenAI-Like 格式的 api 和多种配音接口：
-- `claude-3-5-sonnet-20240620`, **`gemini-2.0-flash-exp`**, `gpt-4o`, `deepseek-coder`, ...（按效果排序）
-- `azure-tts`, `openai-tts`, `siliconflow-fishtts`, **`fish-tts`**, `GPT-SoVITS`, `edge-tts`, `*custom-tts`(ask gpt to help you define in custom_tts.py)
-
-> **注意：** VideoLingo 现已与 [302.ai](https://gpt302.saaslink.net/C2oHR9) 集成，**一个 API KEY** 即可同时支持 LLM 和 TTS！同时也支持完全本地部署，使用 Ollama 作为 LLM 和 Edge-TTS 作为配音，无需云端 API！
-
-详细的安装、API 配置、汉化、批量说明可以参见文档：[English](/docs/pages/docs/start.en-US.md) | [简体中文](/docs/pages/docs/start.zh-CN.md)
+## API 配置
+AuraSub 支持 OpenAI-Like 格式的 API 调用，用于驱动核心的语义切分与翻译引擎：
+- 推荐使用具备较强结构化 JSON 输出和推理能力的大模型：`claude-3-5-sonnet-20240620`, `gpt-4o`, `deepseek-v4-flash`, `gemini-2.0-flash-exp` 等。
+- 配音(TTS)接口支持：`azure-tts`, `openai-tts`, `fish-tts`, `GPT-SoVITS`, `edge-tts` 等。
 
 ## 当前限制
-1. WhisperX 转录效果可能受到视频背景声影响，因为使用了 wav2vac 模型进行对齐。对于背景音乐较大的视频，请开启人声分离增强。另外，如果字幕以数字或特殊符号结尾，可能会导致提前截断，这是因为 wav2vac 无法将数字字符（如"1"）映射到其发音形式（"one"）。
+1. WhisperX 底层转录（wav2vec对齐）对重度背景噪音较敏感。对于专业领域内容，建议输入音轨较为纯净的视频，或者前置开启人声分离。
+2. 整个处理管线高度依赖 LLM 返回的严格 JSON 格式化数据，如果使用较弱或不具备深度思考能力的模型，容易在中间过程因解析错误而中断。若发生此情况，请删除 `output` 文件夹并更换更强的模型重新运行。
+3. 动态语速匹配虽已做了工程优化，但在语言长度结构差异极大的语种对之间，TTS 配音依然可能需要少量的人工微调。
+4. **多语言视频转录识别**：受限于 WhisperX 强制对齐单词级字幕时使用的是单语言特化模型，当前流程默认仅保留并识别主要语言。
 
-2. 使用较弱模型时容易在中间过程报错，这是因为对响应的 json 格式要求较为严格。如果出现此错误，请删除 `output` 文件夹后更换 llm 重试，否则重复执行会读取上次错误的响应导致同样错误。
+## 📄 许可证与鸣谢
 
-3. 配音功能由于不同语言的语速和语调差异，还受到翻译步骤的影响，可能不能 100% 完美，但本项目做了非常多的语速上的工程处理，尽可能保证配音效果。
+本项目采用 **Apache 2.0 许可证** 开源。
 
-4. **多语言视频转录识别仅仅只会保留主要语言**，这是由于 whisperX 在强制对齐单词级字幕时使用的是针对单个语言的特化模型，会因为不认识另一种语言而删去。
+**AuraSub** 是基于原开源项目 [VideoLingo](https://github.com/Huanshere/VideoLingo) 的一次独立演进（Fork/Derivative Work）。原项目由 **Huanshere** 创立，我们在此向原作者表示最诚挚的感谢——是 VideoLingo 优秀的底层工程架构，孕育了如今以“专注语义与专业翻译”为核心理念的 AuraSub。
 
-5. **无法多角色分别配音**，whisperX 的说话人区分效果不够好用。
-
-## 📄 许可证
-
-本项目采用 Apache 2.0 许可证，衷心感谢以下开源项目的贡献：
-
+同时，衷心感谢以下开源项目为本工具底层能力提供的支持：
 [whisperX](https://github.com/m-bain/whisperX), [yt-dlp](https://github.com/yt-dlp/yt-dlp), [json_repair](https://github.com/mangiucugna/json_repair), [BELLE](https://github.com/LianjiaTech/BELLE)
-
-## 📬 联系我们
-
-- 加入我们的 QQ 群寻求解答：875297969
-- 在 GitHub 上提交 [Issues](https://github.com/Huanshere/VideoLingo/issues) 或 [Pull Requests](https://github.com/Huanshere/VideoLingo/pulls)
-- 关注我的 Twitter：[@Huanshere](https://twitter.com/Huanshere)
-- 联系邮箱：team@videolingo.io
-
-## ⭐ Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=Huanshere/VideoLingo&type=Timeline)](https://star-history.com/#Huanshere/VideoLingo&Timeline)

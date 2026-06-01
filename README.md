@@ -1,39 +1,27 @@
 <div align="center">
 
-<img src="/docs/logo.png" alt="VideoLingo Logo" height="140">
-
-# Connect the World, Frame by Frame
-
-[Website](https://videolingo.io) | [Documentation](https://docs.videolingo.io/docs/start)
+# AuraSub
+**Precision-Driven Semantic Translation & Dubbing for Professional Content**
 
 [**English**](/README.md)｜[**中文**](/i18n/README.zh.md)
 
 </div>
 
-## 🌟 Overview ([Try VideoLingo For Free!](https://videolingo.io))
+## 🌟 Overview
 
-VideoLingo is an all-in-one video translation, localization, and dubbing tool aimed at generating Netflix-quality subtitles. It eliminates stiff machine translations and multi-line subtitles while adding high-quality dubbing, enabling global knowledge sharing across language barriers.
+**AuraSub** is an advanced, independent evolution of the original VideoLingo project. Unlike generic translation tools aimed at casual entertainment, AuraSub is explicitly engineered for **professional knowledge sharing, academic lectures, and hardcore technical tutorials**.
 
-Key features:
-- 🎥 YouTube video download via yt-dlp
+It focuses heavily on precise semantic sentence breaking and strict adherence to the **Netflix single-line subtitle standard (absolutely no double-line subtitles)**. By completely replacing legacy mechanical NLP segmentations with a pure Zero-Loss LLM architecture, AuraSub ensures contextually flawless translations that are perfectly synced to the original audio timestamps at the millisecond level.
 
-- **🎙️ Word-level Subtitle Recognition:** Powered by WhisperX for low-illusion, precise word-level timestamping.
-
-- **🧠 Zero-Loss LLM Semantic Chunking:** Replaces mechanical NLP (e.g., SpaCy) with intelligent LLM punctuation and logic-based chunking that reads exact word outputs without modifying native vocabulary.
-
-- **📚 Context-Aware Paragraph Translation:** Groups sub-clauses naturally into paragraph-level prompts with terminology injection, empowering the LLM to freely restructure target language phrasing while preserving perfect 1:1 timeline mapping.
-
-- **🪡 Robust Two-Pointer Alignment:** A custom alignment engine mathematically matches translated blocks back to their precise word-level audio timestamps natively.
-
-- **✅ Netflix-standard, Single-line subtitles Only**
-
-- **🗣️ Dubbing with GPT-SoVITS, Azure, OpenAI, and more**
-
-- 🚀 One-click startup and processing in Streamlit
-
-- 📝 Detailed logging with progress resumption
-
-Difference from similar projects: **Single-line subtitles only, superior translation quality, seamless dubbing experience**
+### Core Features:
+- 🎥 **Video Ingestion:** Direct video download via yt-dlp.
+- **🎙️ Word-Level Subtitle Recognition:** Powered by WhisperX for low-illusion, precise word-level timestamping.
+- **🧠 Zero-Loss LLM Semantic Chunking:** Replaces mechanical NLP (e.g., SpaCy) with intelligent LLM-driven punctuation and logic-based chunking. It reads and structures exact word outputs natively, preventing vocabulary loss.
+- **📚 Context-Aware Paragraph Translation & Regex Terminology:** Groups sub-clauses naturally into paragraph-level prompts. It uses strict regex word-boundary matching for custom terminology injection, preventing LLM hallucinations (e.g., confusing "buckle" with "buccal"), and allowing free linguistic restructuring while maintaining perfect meaning.
+- **🪡 Robust Two-Pointer Alignment:** A custom alignment engine mathematically matches translated blocks back to their precise word-level audio timestamps, entirely eliminating the missing timeline issues of previous iterations.
+- **✅ Netflix-Standard Exclusivity:** Enforces strict single-line subtitles only, guaranteeing a clean, professional viewing experience.
+- **🗣️ Advanced Dubbing:** Seamless integration with GPT-SoVITS, Azure, OpenAI TTS, Fish-TTS, and more.
+- 🚀 **Streamlit UI:** One-click startup and processing interface.
 
 ## 🎥 Demo
 
@@ -41,14 +29,14 @@ Difference from similar projects: **Single-line subtitles only, superior transla
 <tr>
 <td width="50%">
 
-### Russian Translation
+### Translation Quality Demonstration
 ---
 https://github.com/user-attachments/assets/25264b5b-6931-4d39-948c-5a1e4ce42fa7
 
 </td>
 <td width="50%">
 
-### GPT-SoVITS Dubbing
+### High-Quality Dubbing (GPT-SoVITS)
 ---
 https://github.com/user-attachments/assets/47d965b2-b4ab-4a0b-9d08-b49a7bf3508c
 
@@ -58,13 +46,11 @@ https://github.com/user-attachments/assets/47d965b2-b4ab-4a0b-9d08-b49a7bf3508c
 
 ### Language Support
 
-**Input Language Support(more to come):**
+**Input Languages:**
+🇺🇸 English | 🇷🇺 Russian | 🇫🇷 French | 🇩🇪 German | 🇮🇹 Italian | 🇪🇸 Spanish | 🇯🇵 Japanese | 🇨🇳 Chinese
 
-🇺🇸 English 🤩 | 🇷🇺 Russian 😊 | 🇫🇷 French 🤩 | 🇩🇪 German 🤩 | 🇮🇹 Italian 🤩 | 🇪🇸 Spanish 🤩 | 🇯🇵 Japanese 😐 | 🇨🇳 Chinese* 😊
-
-> *Chinese uses a separate punctuation-enhanced whisper model, for now...
-
-**Translation supports all languages, while dubbing language depends on the chosen TTS method.**
+**Translation & Dubbing:**
+Translation supports practically all languages powered by leading LLMs. Dubbing support depends on the chosen TTS provider.
 
 ## Installation
 
@@ -82,15 +68,15 @@ https://github.com/user-attachments/assets/47d965b2-b4ab-4a0b-9d08-b49a7bf3508c
 1. Clone the repository
 
 ```bash
-git clone https://github.com/Huanshere/VideoLingo.git
-cd VideoLingo
+git clone https://github.com/YourOrg/AuraSub.git
+cd AuraSub
 ```
 
-2. Install dependencies(requires `python=3.10`)
+2. Install dependencies (requires `python=3.10`)
 
 ```bash
-conda create -n videolingo python=3.10.0 -y
-conda activate videolingo
+conda create -n aurasub python=3.10.0 -y
+conda activate aurasub
 python install.py
 ```
 
@@ -101,51 +87,30 @@ streamlit run st.py
 ```
 
 ### Docker
-Alternatively, you can use Docker (requires CUDA 12.4 and NVIDIA Driver version >550), see [Docker docs](/docs/pages/docs/docker.en-US.md):
+Alternatively, you can use Docker (requires CUDA 12.4 and NVIDIA Driver version >550):
 
 ```bash
-docker build -t videolingo .
-docker run -d -p 8501:8501 --gpus all videolingo
+docker build -t aurasub .
+docker run -d -p 8501:8501 --gpus all aurasub
 ```
 
-## API
-VideoLingo supports OpenAI-Like API format and various dubbing interfaces:
-- `claude-3-5-sonnet-20240620`, **`gemini-2.0-flash-exp`**, `gpt-4o`, `deepseek-coder`, ... (sorted by performance)
-- `azure-tts`, `openai-tts`, `siliconflow-fishtts`, **`fish-tts`**, `GPT-SoVITS`, `edge-tts`, `*custom-tts`(ask gpt to help you define in custom_tts.py)
-
-> **Note:** VideoLingo is now integrated with [302.ai](https://gpt302.saaslink.net/C2oHR9), **one API KEY** for both LLM and TTS! Also supports fully local deployment using Ollama for LLM and Edge-TTS for dubbing, no cloud API required!
-
-For detailed installation, API configuration, and batch mode instructions, please refer to the documentation: [English](/docs/pages/docs/start.en-US.md) | [中文](/docs/pages/docs/start.zh-CN.md)
+## API Configuration
+AuraSub supports OpenAI-like API formats for reasoning and translation:
+- Supported LLMs: `claude-3-5-sonnet-20240620`, `gemini-2.0-flash-exp`, `gpt-4o`, `deepseek-v4-flash`, etc. (For processing, models with structured JSON adherence and reasoning capabilities are highly recommended).
+- Supported TTS: `azure-tts`, `openai-tts`, `fish-tts`, `GPT-SoVITS`, `edge-tts`, and more.
 
 ## Current Limitations
 
-1. WhisperX transcription performance may be affected by video background noise, as it uses wav2vac model for alignment. For videos with loud background music, please enable Voice Separation Enhancement. Additionally, subtitles ending with numbers or special characters may be truncated early due to wav2vac's inability to map numeric characters (e.g., "1") to their spoken form ("one").
+1. WhisperX transcription performance may be affected by heavy background noise (using wav2vec alignment). For best results on professional content, clean audio tracks are preferred.
+2. Due to strict JSON schema validation in the LLM pipeline, using weaker, non-reasoning LLMs may cause intermediate step failures. If this occurs, delete the `output` folder and retry with a stronger model (e.g., GPT-4o, Claude 3.5, or DeepSeek).
+3. The dubbing feature synchronizes speaking rates dynamically, but language structural differences mean it may require manual tweaking for absolute perfection.
+4. **Multilingual recognition** defaults to the primary detected language due to WhisperX's specialized single-language alignment constraint.
 
-2. Using weaker models can lead to errors during intermediate processes due to strict JSON format requirements for responses. If this error occurs, please delete the `output` folder and retry with a different LLM, otherwise repeated execution will read the previous erroneous response causing the same error.
+## 📄 License & Attribution
 
-3. The dubbing feature may not be 100% perfect due to differences in speech rates and intonation between languages, as well as the impact of the translation step. However, this project has implemented extensive engineering processing for speech rates to ensure the best possible dubbing results.
+This project is licensed under the **Apache 2.0 License**.
 
-4. **Multilingual video transcription recognition will only retain the main language**. This is because whisperX uses a specialized model for a single language when forcibly aligning word-level subtitles, and will delete unrecognized languages.
+**AuraSub** is an independent, heavily refactored fork and evolution of [VideoLingo](https://github.com/Huanshere/VideoLingo), originally created by **Huanshere**. We sincerely thank the original author for the foundational engineering architecture, which made this semantic-focused evolution possible.
 
-5. **Cannot dub multiple characters separately**, as whisperX's speaker distinction capability is not sufficiently reliable.
-
-## 📄 License
-
-This project is licensed under the Apache 2.0 License. Special thanks to the following open source projects for their contributions:
-
+Special thanks to the following open-source projects for their underlying capabilities:
 [whisperX](https://github.com/m-bain/whisperX), [yt-dlp](https://github.com/yt-dlp/yt-dlp), [json_repair](https://github.com/mangiucugna/json_repair), [BELLE](https://github.com/LianjiaTech/BELLE)
-
-## 📬 Contact Us
-
-- Join our Discord: https://discord.gg/9F2G92CWPp
-- Submit [Issues](https://github.com/Huanshere/VideoLingo/issues) or [Pull Requests](https://github.com/Huanshere/VideoLingo/pulls) on GitHub
-- Follow me on Twitter: [@Huanshere](https://twitter.com/Huanshere)
-- Email me at: team@videolingo.io
-
-## ⭐ Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=Huanshere/VideoLingo&type=Timeline)](https://star-history.com/#Huanshere/VideoLingo&Timeline)
-
----
-
-<p align="center">If you find VideoLingo helpful, please give us a ⭐️!</p>
