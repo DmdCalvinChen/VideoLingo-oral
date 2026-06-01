@@ -73,9 +73,15 @@ docker build -t aurasub .
 docker run -d -p 8501:8501 --gpus all aurasub
 ```
 
+## 📝 Custom Terminology & ASR Correction
+AuraSub features a powerful context-based phonetic correction engine. While it can automatically fix common misheard words, providing a domain-specific glossary will significantly enhance accuracy:
+1. In the project root, duplicate `custom_terms_template.xlsx` and rename it to `custom_terms.xlsx`.
+2. Enter your specialized vocabulary (e.g., `buccal`, `Anchorage`) into the first column of the spreadsheet.
+3. During processing, AuraSub will prioritize your glossary to regex-scan and automatically surgically repair misheard terms within the raw audio timeline.
+
 ## API Configuration
 AuraSub supports OpenAI-like API formats for reasoning and translation:
-- Supported LLMs: `claude-3-5-sonnet-20240620`, `gemini-2.0-flash-exp`, `gpt-4o`, `deepseek-v4-flash`, etc. (For processing, models with structured JSON adherence and reasoning capabilities are highly recommended).
+- Supported LLMs: Supports virtually all current mainstream large models (as long as they can output JSON format, they can complete this workflow perfectly).
 - Supported TTS: `azure-tts`, `openai-tts`, `fish-tts`, `GPT-SoVITS`, `edge-tts`, and more.
 
 ## Current Limitations

@@ -56,7 +56,7 @@ def gpt_sovits_tts(text, text_lang, save_path, ref_audio_path, prompt_lang, prom
         rprint(f"[bold red]TTS request failed, status code:[/bold red] {response.status_code}")
         return False
 
-def gpt_sovits_tts_for_videolingo(text, save_as, number, task_df):
+def gpt_sovits_tts_for_aurasub(text, save_as, number, task_df):
     start_gpt_sovits_server()
     TARGET_LANGUAGE = load_key("target_language")
     WHISPER_LANGUAGE = load_key("whisper.language")

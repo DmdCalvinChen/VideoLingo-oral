@@ -55,7 +55,8 @@ def ask_gpt(prompt, response_json=True, valid_def=None, log_title='default', rea
         raise ValueError(f"⚠️API_KEY is missing")
     
     # SenseNova's JSON parsing requires system prompt to instruct JSON output
-    system_prompt = "You are a helpful assistant."
+    import uuid
+    system_prompt = f"You are a helpful assistant. (ReqID: {uuid.uuid4().hex[:8]})"
     if response_json:
         system_prompt += " Please output your response in JSON format."
 

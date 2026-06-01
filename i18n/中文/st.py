@@ -8,7 +8,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 os.environ['PATH'] += os.pathsep + current_dir
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-st.set_page_config(page_title="VideoLingo", page_icon="docs/logo.svg")
+st.set_page_config(page_title="AuraSub", page_icon="docs/logo.svg")
 
 SUB_VIDEO = "output/output_sub.mp4"
 DUB_VIDEO = "output/output_dub.mp4"
@@ -110,7 +110,7 @@ def main():
     with logo_col:
         st.image("docs/logo.png", use_column_width=True)
     st.markdown(button_style, unsafe_allow_html=True)
-    st.markdown("<p style='font-size: 20px; color: #808080;'>你好，欢迎使用 VideoLingo。本项目目前正在建设中。如果遇到任何问题，请随时在 Github 上提问！现在可以在我们的官网免费体验：<a href='https://videolingo.io' target='_blank'>videolingo.io</a></p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 20px; color: #808080;'>你好，欢迎使用 AuraSub。本项目目前正在建设中。如果遇到任何问题，请随时在 Github 上提问！现在可以在我们的官网免费体验：<a href='https://aurasub.io' target='_blank'>aurasub.io</a></p>", unsafe_allow_html=True)
     # add settings
     with st.sidebar:
         page_setting()

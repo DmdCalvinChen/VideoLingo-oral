@@ -1,8 +1,8 @@
-# VideoLingo: Connecting the World, Frame by Frame
+# AuraSub: Connecting the World, Frame by Frame
 
-## 🌟 Overview ([Try VideoLingo Now!](https://videolingo.io))
+## 🌟 Overview ([Try AuraSub Now!](https://aurasub.io))
 
-VideoLingo is an all-in-one video translation, localization, and dubbing tool aimed at generating Netflix-quality subtitles. It eliminates stiff machine translations and multi-line subtitles while adding high-quality dubbing, enabling global knowledge sharing across language barriers.
+AuraSub is an all-in-one video translation, localization, and dubbing tool aimed at generating Netflix-quality subtitles. It eliminates stiff machine translations and multi-line subtitles while adding high-quality dubbing, enabling global knowledge sharing across language barriers.
 
 Key features:
 - 🎥 YouTube video download via yt-dlp
@@ -71,15 +71,15 @@ https://github.com/user-attachments/assets/47d965b2-b4ab-4a0b-9d08-b49a7bf3508c
 1. Clone the repository
 
 ```bash
-git clone https://github.com/Huanshere/VideoLingo.git
-cd VideoLingo
+git clone https://github.com/Huanshere/AuraSub.git
+cd AuraSub
 ```
 
 2. Install dependencies(requires `python=3.10`)
 
 ```bash
-conda create -n videolingo python=3.10.0 -y
-conda activate videolingo
+conda create -n aurasub python=3.10.0 -y
+conda activate aurasub
 python install.py
 ```
 
@@ -93,8 +93,8 @@ streamlit run st.py
 Alternatively, you can use Docker (requires CUDA 12.4 and NVIDIA Driver version >550), see [Docker docs](/docs/pages/docs/docker.en-US.md):
 
 ```bash
-docker build -t videolingo .
-docker run -d -p 8501:8501 --gpus all videolingo
+docker build -t aurasub .
+docker run -d -p 8501:8501 --gpus all aurasub
 ```
 
 ## API
@@ -125,14 +125,14 @@ This project is licensed under the Apache 2.0 License. Special thanks to the fol
 ## 📬 Contact Us
 
 - Join our Discord: https://discord.gg/9F2G92CWPp
-- Submit [Issues](https://github.com/Huanshere/VideoLingo/issues) or [Pull Requests](https://github.com/Huanshere/VideoLingo/pulls) on GitHub
+- Submit [Issues](https://github.com/Huanshere/AuraSub/issues) or [Pull Requests](https://github.com/Huanshere/AuraSub/pulls) on GitHub
 - Follow me on Twitter: [@Huanshere](https://twitter.com/Huanshere)
-- Email me at: team@videolingo.io
+- Email me at: team@aurasub.io
 
 ## ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Huanshere/VideoLingo&type=Timeline)](https://star-history.com/#Huanshere/VideoLingo&Timeline)
+[![Star History Chart](https://api.star-history.com/svg?repos=Huanshere/AuraSub&type=Timeline)](https://star-history.com/#Huanshere/AuraSub&Timeline)
 
 ---
 
-<p align="center">If you find VideoLingo helpful, please give us a ⭐️!</p>
+<p align="center">If you find AuraSub helpful, please give us a ⭐️!</p>

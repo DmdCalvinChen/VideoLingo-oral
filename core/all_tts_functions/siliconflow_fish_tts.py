@@ -207,7 +207,7 @@ def get_ref_audio(task_df) -> Tuple[str, str]:
     
     return combined_audio, combined_text
 
-def siliconflow_fish_tts_for_videolingo(text, save_as, number, task_df):
+def siliconflow_fish_tts_for_aurasub(text, save_as, number, task_df):
     sf_fish_set = load_key("sf_fish_tts")
     MODE = sf_fish_set["mode"]
 

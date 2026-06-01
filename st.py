@@ -117,7 +117,7 @@ def main():
     with logo_col:
         st.image("docs/logo.png", use_column_width=True)
     st.markdown(button_style, unsafe_allow_html=True)
-    st.markdown("<p style='font-size: 20px; color: #808080;'>Hello, welcome to VideoLingo. This project is currently under construction. If you encounter any issues, please feel free to ask questions on Github! You can also use VideoLingo on our website now: <a href='https://videolingo.io' target='_blank'>videolingo.io</a></p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 20px; color: #808080;'>Hello, welcome to AuraSub. This project is currently under construction. If you encounter any issues, please feel free to ask questions on Github! You can also use AuraSub on our website now: <a href='https://aurasub.io' target='_blank'>aurasub.io</a></p>", unsafe_allow_html=True)
     # add settings
     with st.sidebar:
         page_setting()
