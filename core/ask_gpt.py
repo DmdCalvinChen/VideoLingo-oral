@@ -78,10 +78,36 @@ def ask_gpt(prompt, response_json=True, valid_def=None, log_title='default', rea
             }
             if response_format is not None:
                 completion_args["response_format"] = response_format
-            if api_set["model"] == "deepseek-v4-flash":
-                completion_args["extra_body"] = {"reasoning_effort": reasoning_effort}
+                
+            # Determine reasoning effort based on task difficulty
+            hard_titles = ['logical_chunking', 'translate_expressiveness', 'sentence_splitbymeaning', 'punctuation']
+            is_hard = any(t in log_title for t in hard_titles) or log_title.startswith('asr_correction')
+            
+            configured_effort = load_key("reasoning.hard_tasks") if is_hard else load_key("reasoning.easy_tasks")
+            
+            if configured_effort and configured_effort.lower() != "none":
+                # Use extra_body to bypass OpenAI Python SDK version validation errors
+                # This works for both native OpenAI models (like o1) and proxies (like DeepSeek)
+                completion_args["extra_body"] = {"reasoning_effort": configured_effort}
+                    
+            if attempt == 0:
+                task_type = "🧠 Hard Task" if is_hard else "⚡ Easy Task"
+                print(f"[{task_type}] Using reasoning effort: {configured_effort}")
                 
             response = client.chat.completions.create(**completion_args)
+            
+            if hasattr(response, 'usage') and response.usage:
+                try:
+                    usage_dict = response.usage.model_dump()
+                    reasoning_tokens = 0
+                    if 'completion_tokens_details' in usage_dict and isinstance(usage_dict['completion_tokens_details'], dict):
+                        reasoning_tokens = usage_dict['completion_tokens_details'].get('reasoning_tokens', 0)
+                    elif 'reasoning_tokens' in usage_dict:
+                        reasoning_tokens = usage_dict.get('reasoning_tokens', 0)
+                        
+                    print(f"   └── [Token Usage] Prompt: {usage_dict.get('prompt_tokens', 0)} | Completion: {usage_dict.get('completion_tokens', 0)} | 🤔 Thinking: {reasoning_tokens}")
+                except Exception:
+                    pass
             
             if response_json:
                 try:

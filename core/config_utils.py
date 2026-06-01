@@ -38,10 +38,36 @@ def load_key(key: str) -> Any:
 
 def update_key(key: str, new_value: Any) -> bool:
     with config_lock:
+        keys = key.split('.')
+        secret_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '.secret')
+        
+        # Check if key exists in .secret
+        updated_in_secret = False
+        if os.path.exists(secret_path):
+            with open(secret_path, 'r', encoding='utf-8') as file:
+                secret_data = yaml.load(file)
+            
+            if secret_data:
+                current_secret = secret_data
+                for k in keys[:-1]:
+                    if isinstance(current_secret, dict) and k in current_secret:
+                        current_secret = current_secret[k]
+                    else:
+                        break
+                else:
+                    if isinstance(current_secret, dict) and keys[-1] in current_secret:
+                        current_secret[keys[-1]] = new_value
+                        with open(secret_path, 'w', encoding='utf-8') as file:
+                            yaml.dump(secret_data, file)
+                        updated_in_secret = True
+
+        if updated_in_secret:
+            return True
+
+        # Fallback to config.yaml if not updated in .secret
         with open(CONFIG_PATH, 'r', encoding='utf-8') as file:
             data = yaml.load(file)
 
-        keys = key.split('.')
         current = data
         for k in keys[:-1]:
             if isinstance(current, dict) and k in current:

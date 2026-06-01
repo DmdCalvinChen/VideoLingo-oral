@@ -106,11 +106,8 @@ def process_audio():
     st.balloons()
 
 def main():
-    logo_col, _ = st.columns([1,1])
-    with logo_col:
-        st.image("docs/logo.png", use_column_width=True)
+    st.markdown("<h1 style='text-align: center; color: #144070; margin-bottom: 30px;'>AuraSub</h1>", unsafe_allow_html=True)
     st.markdown(button_style, unsafe_allow_html=True)
-    st.markdown("<p style='font-size: 20px; color: #808080;'>你好，欢迎使用 AuraSub。本项目目前正在建设中。如果遇到任何问题，请随时在 Github 上提问！现在可以在我们的官网免费体验：<a href='https://aurasub.io' target='_blank'>aurasub.io</a></p>", unsafe_allow_html=True)
     # add settings
     with st.sidebar:
         page_setting()
