@@ -30,9 +30,15 @@ def text_processing_section():
         """, unsafe_allow_html=True)
 
         if not os.path.exists(SUB_VIDEO):
+            if load_key("resolution") == "0x0":
+                st.warning("⚠️ 'Burn-in Subtitles' is disabled in the sidebar! Processing now will only generate a blank/placeholder video. Please turn it ON in the sidebar to burn subtitles into your video.", icon="⚠️")
             if st.button("Start Processing Subtitles", key="text_processing_button"):
-                process_text()
-                st.rerun()
+                if load_key("resolution") == "0x0":
+                    st.error("❌ Cannot start processing: Please turn on 'Burn-in Subtitles' in the sidebar first!")
+                    st.toast("⚠️ Please turn on 'Burn-in Subtitles' in the sidebar!", icon="⚠️")
+                else:
+                    process_text()
+                    st.rerun()
         else:
             if load_key("resolution") != "0x0":
                 st.video(SUB_VIDEO)
@@ -68,6 +74,64 @@ def process_text():
     
     st.success("Subtitle processing complete! 🎉")
     st.balloons()
+
+def subtitle_customization_section():
+    if os.path.exists("output/trans.srt"):
+        st.header("Subtitle Style Preview")
+        with st.container(border=True):
+            col1, col2 = st.columns(2)
+            with col1:
+                target_size = st.slider("Target Language Size", 5, 40, load_key("subtitle.target_font_size"))
+            with col2:
+                source_size = st.slider("Source Language Size", 5, 40, load_key("subtitle.source_font_size"))
+            
+            if st.button("Generate Preview Frame", key="generate_preview"):
+                if load_key("resolution") == "0x0":
+                    st.error("❌ Cannot preview: Please turn on 'Burn-in Subtitles' in the sidebar first!")
+                    st.toast("⚠️ Enable 'Burn-in Subtitles' first!", icon="⚠️")
+                else:
+                    from core.config_utils import update_key
+                    update_key("subtitle.target_font_size", target_size)
+                    update_key("subtitle.source_font_size", source_size)
+                    st.session_state.preview_generated = True
+                    from core.step7_merge_sub_to_vid import generate_preview_frame
+                    with st.spinner("Finding longest sentence and generating preview..."):
+                        preview_path = generate_preview_frame(target_size, source_size)
+                        if preview_path and os.path.exists(preview_path):
+                            try:
+                                st.image(preview_path, use_container_width=True)
+                            except TypeError:
+                                st.image(preview_path, use_column_width=True)
+                        else:
+                            st.warning("Failed to generate preview.")
+            
+            if os.path.exists(SUB_VIDEO):
+                # Ensure the user must preview the current slider values before merging
+                current_target = load_key("subtitle.target_font_size")
+                current_source = load_key("subtitle.source_font_size")
+                
+                is_preview_valid = (
+                    target_size == current_target and 
+                    source_size == current_source and 
+                    st.session_state.get('preview_generated', False)
+                )
+                
+                if st.button("Re-merge Subtitles with New Style", key="remerge_subtitles"):
+                    if not is_preview_valid:
+                        st.error("❌ Please click 'Generate Preview Frame' first to preview your changes before merging!")
+                        st.toast("⚠️ Generate preview first!", icon="⚠️")
+                    elif load_key("resolution") == "0x0":
+                        st.error("❌ Cannot merge subtitles: Please turn on 'Burn-in Subtitles' in the sidebar first!")
+                        st.toast("⚠️ Enable 'Burn-in Subtitles' first!", icon="⚠️")
+                    else:
+                        from core.config_utils import update_key
+                        update_key("subtitle.target_font_size", target_size)
+                        update_key("subtitle.source_font_size", source_size)
+                        from core import step7_merge_sub_to_vid
+                        with st.spinner("Re-merging subtitles to video..."):
+                            step7_merge_sub_to_vid.merge_subtitles_to_video()
+                        st.success("Subtitles re-merged successfully!")
+                        st.rerun()
 
 def audio_processing_section():
     st.header("Dubbing")
@@ -121,6 +185,7 @@ def main():
         st.markdown(give_star_button, unsafe_allow_html=True)
     download_video_section()
     text_processing_section()
+    subtitle_customization_section()
     audio_processing_section()
 
 if __name__ == "__main__":

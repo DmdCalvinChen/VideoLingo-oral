@@ -21,6 +21,8 @@ While the original project relies on traditional NLP algorithms for sentence bre
 - **🪡 Robust Two-Pointer Alignment:** A custom alignment engine mathematically matches translated blocks back to their precise word-level audio timestamps, entirely avoiding the missing timeline issues of previous iterations.
 - **✅ Netflix-Standard Exclusivity:** Enforces strict single-line subtitles only, guaranteeing a clean, professional viewing experience.
 - **🎙️ Advanced Dubbing:** Seamless integration with GPT-SoVITS, Azure, OpenAI TTS, and more for one-click multilingual dubbing.
+- **🧠 Two-Tier Reasoning Control:** Allows configuring different reasoning intensities (e.g., `low`, `medium`, `high` via API request bodies) for hard vs. easy tasks in the WebUI to maximize translation quality and cost-efficiency.
+- **🎨 Subtitle Style & Real-Time Preview:** Features a dedicated customization block for adjusting font sizes. Employs a unified ASS subtitle generation scheme for zero-overlap and zero-gap double-line text, and renders single-frame previews of the longest sentences instantly without repeating the translation workflow.
 
 
 ### Language Support

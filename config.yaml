@@ -5,7 +5,6 @@ version: "2.1.2"
 api:
   key: 'not here'
   base_url: 'https://api.openai.com/v1'
-
   model: 'deepseek-v4-flash'
 
 # Language settings, written into the prompt, can be described in natural language
@@ -33,6 +32,8 @@ subtitle:
   max_length: 75
   # *Translated subtitles are slightly larger than source subtitles, affecting the reference length for subtitle splitting
   target_multiplier: 1.2
+  target_font_size: 16
+  source_font_size: 8
 
 # * Summary length, set low to 2k if using local LLM
 summary_length: 8000
