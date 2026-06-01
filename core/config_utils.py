@@ -15,6 +15,17 @@ def load_key(key: str) -> Any:
     with config_lock:
         with open(CONFIG_PATH, 'r', encoding='utf-8') as file:
             data = yaml.load(file)
+            
+        secret_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '.secret')
+        if os.path.exists(secret_path):
+            with open(secret_path, 'r', encoding='utf-8') as f:
+                secret_data = yaml.load(f)
+                if secret_data:
+                    for k, v in secret_data.items():
+                        if k in data and isinstance(data[k], dict) and isinstance(v, dict):
+                            data[k].update(v)
+                        else:
+                            data[k] = v
 
     keys = key.split('.')
     value = data
