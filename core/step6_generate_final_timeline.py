@@ -83,25 +83,41 @@ def get_sentence_timestamps(df_words, df_sentences):
             time_stamp_list.append((float(starts[global_word_idx]), float(ends[global_word_idx])))
             continue
             
-        # The start time corresponds to the first word in the sentence
-        # We search forward in case some words were skipped/hallucinated
-        while global_word_idx < len(words_list) and words_list[global_word_idx] != sent_words[0]:
-            global_word_idx += 1
-
-        if global_word_idx >= len(words_list):
-            print(f"\n⚠️ Warning: Lost alignment track at sentence: '{sentence}'")
-            raise ValueError("Alignment tracking lost!")
-
+        # The start time corresponds to the first matching word in the sentence
+        # We search forward with a bounded lookahead to prevent runaway pointers if words were modified
         start_idx = global_word_idx
+        for w in sent_words[:3]:  # Anchor using one of the first 3 words
+            lookahead = 0
+            found = False
+            while global_word_idx + lookahead < len(words_list) and lookahead < 10:
+                if words_list[global_word_idx + lookahead] == w:
+                    start_idx = global_word_idx + lookahead
+                    found = True
+                    break
+                lookahead += 1
+            if found:
+                break
+                
+        if not found:
+            # If we couldn't anchor, just use the current global pointer
+            start_idx = global_word_idx
 
-        # Advance for each word in the sentence
+        global_word_idx = start_idx
+
+        # Advance for each word in the sentence using a bounded lookahead
         for w in sent_words:
-            while global_word_idx < len(words_list) and words_list[global_word_idx] != w:
-                global_word_idx += 1
-            if global_word_idx < len(words_list):
-                global_word_idx += 1
+            lookahead = 0
+            found = False
+            while global_word_idx + lookahead < len(words_list) and lookahead < 5:
+                if words_list[global_word_idx + lookahead] == w:
+                    found = True
+                    break
+                lookahead += 1
+            
+            if found:
+                global_word_idx += lookahead + 1
 
-        end_idx = min(global_word_idx - 1, len(words_list) - 1)
+        end_idx = min(max(global_word_idx - 1, start_idx), len(words_list) - 1)
 
         time_stamp_list.append((float(starts[start_idx]), float(ends[end_idx])))
 

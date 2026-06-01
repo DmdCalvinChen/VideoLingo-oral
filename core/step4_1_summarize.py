@@ -44,20 +44,24 @@ def search_things_to_note_in_prompt(sentence):
 
 def get_summary():
     src_content = combine_chunks()
-    custom_terms = pd.read_excel(CUSTOM_TERMS_PATH)
-    custom_terms_json = {
-        "terms": [
-            {
-                "src": str(row.iloc[0]),
-                "tgt": str(row.iloc[1]), 
-                "note": str(row.iloc[2])
-            }
-            for _, row in custom_terms.iterrows()
-        ]
-    }
-    if len(custom_terms) > 0:
-        print(f"📖 Custom Terms Loaded: {len(custom_terms)} terms")
-        print("📝 Terms Content:", json.dumps(custom_terms_json, indent=2, ensure_ascii=False))
+    custom_terms_json = {"terms": []}
+    
+    if os.path.exists(CUSTOM_TERMS_PATH):
+        try:
+            custom_terms = pd.read_excel(CUSTOM_TERMS_PATH)
+            custom_terms_json["terms"] = [
+                {
+                    "src": str(row.iloc[0]),
+                    "tgt": str(row.iloc[1]), 
+                    "note": str(row.iloc[2])
+                }
+                for _, row in custom_terms.iterrows()
+            ]
+            if len(custom_terms) > 0:
+                print(f"📖 Custom Terms Loaded: {len(custom_terms)} terms")
+                print("📝 Terms Content:", json.dumps(custom_terms_json, indent=2, ensure_ascii=False))
+        except Exception as e:
+            print(f"⚠️ Failed to load {CUSTOM_TERMS_PATH}: {e}")
     summary_prompt = get_summary_prompt(src_content, custom_terms_json)
     print("📝 Summarizing and extracting terminology ...")
     
