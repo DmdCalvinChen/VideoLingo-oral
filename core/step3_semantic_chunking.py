@@ -40,6 +40,9 @@ Your task is to split this text into logically complete subtitle sentences, wher
 2. If a sentence is very long, break it into logical clauses.
 3. Provide one sentence per line.
 4. ABSOLUTE RULE: DO NOT add, remove, or modify any words. Just determine the breaks.
+   - 1. DO NOT remove filler words (e.g., keep "uh", "um" exactly as they are).
+   - 2. DO NOT fix grammatical errors (e.g., keep "he go" instead of fixing it to "he goes").
+   - 3. DO NOT fix spelling or wrong words (e.g., keep "macro soft" instead of fixing it to "Microsoft").
 
 ### Input Text
 <text>
@@ -88,7 +91,7 @@ def split_by_semantic_chunking():
         full_text = f.read()
 
     words = full_text.split()
-    batch_size = 350
+    batch_size = 400
     word_batches = []
     current_batch = []
     for word in words:
@@ -97,7 +100,10 @@ def split_by_semantic_chunking():
             word_batches.append(" ".join(current_batch))
             current_batch = []
     if current_batch:
-        word_batches.append(" ".join(current_batch))
+        if word_batches and len(current_batch) < 100:
+            word_batches[-1] += " " + " ".join(current_batch)
+        else:
+            word_batches.append(" ".join(current_batch))
 
     all_sentences = []
     for idx, batch in enumerate(word_batches):
