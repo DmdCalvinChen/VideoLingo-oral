@@ -1,0 +1,50 @@
+import pandas as pd
+
+terms_data = [
+    {"Source": "archwire", "Trans": "弓丝", "Explain(Optional)": ""},
+    {"Source": "bracket", "Trans": "托槽", "Explain(Optional)": ""},
+    {"Source": "slot", "Trans": "槽沟", "Explain(Optional)": ""},
+    {"Source": "single couple", "Trans": "单力偶", "Explain(Optional)": ""},
+    {"Source": "canine", "Trans": "尖牙", "Explain(Optional)": ""},
+    {"Source": "premolar", "Trans": "前磨牙", "Explain(Optional)": ""},
+    {"Source": "molar", "Trans": "磨牙", "Explain(Optional)": ""},
+    {"Source": "button", "Trans": "牵引扣", "Explain(Optional)": "可根据语境替换为 traction hook / cleat"},
+    {"Source": "rectangular wire", "Trans": "方丝", "Explain(Optional)": ""},
+    {"Source": "round wire", "Trans": "圆丝", "Explain(Optional)": ""},
+    {"Source": "V-bend", "Trans": "V型弯", "Explain(Optional)": ""},
+    {"Source": "rigid archwire", "Trans": "刚性弓丝", "Explain(Optional)": ""},
+    {"Source": "flexible archwire", "Trans": "柔性弓丝", "Explain(Optional)": ""},
+    {"Source": "intrusive force", "Trans": "压低力", "Explain(Optional)": ""},
+    {"Source": "extrusive force", "Trans": "牵出力", "Explain(Optional)": ""},
+    {"Source": "first order bend", "Trans": "第一序列弯曲", "Explain(Optional)": ""},
+    {"Source": "second order bend", "Trans": "第二序列弯曲", "Explain(Optional)": ""},
+    {"Source": "third order bend", "Trans": "第三序列弯曲", "Explain(Optional)": ""},
+    {"Source": "step bend", "Trans": "阶梯弯", "Explain(Optional)": ""},
+    {"Source": "anterior teeth", "Trans": "前牙", "Explain(Optional)": ""},
+    {"Source": "posterior teeth", "Trans": "后牙", "Explain(Optional)": ""},
+    {"Source": "2x4 appliance", "Trans": "2×4矫治技术", "Explain(Optional)": "或 2x4 mechanics"},
+    {"Source": "coronal plane", "Trans": "冠状面", "Explain(Optional)": ""},
+    {"Source": "sagittal plane", "Trans": "矢状面", "Explain(Optional)": ""},
+    {"Source": "horizontal plane", "Trans": "水平面", "Explain(Optional)": ""},
+    {"Source": "well-aligned", "Trans": "排列良好", "Explain(Optional)": ""},
+    {"Source": "controlled tipping", "Trans": "受控倾斜", "Explain(Optional)": ""},
+    {"Source": "uncontrolled tipping", "Trans": "不受控倾斜", "Explain(Optional)": ""},
+    {"Source": "translation", "Trans": "平移", "Explain(Optional)": "或 bodily movement"},
+    {"Source": "target unit", "Trans": "目标单元", "Explain(Optional)": ""},
+    {"Source": "anchor unit", "Trans": "支抗单元", "Explain(Optional)": "或 anchorage unit"},
+    {"Source": "transverse plane", "Trans": "横断面", "Explain(Optional)": ""},
+    {"Source": "mechanotherapy", "Trans": "机械疗法", "Explain(Optional)": "原文可能是 Mechanotropy 的笔误"},
+    {"Source": "anchorage", "Trans": "支抗", "Explain(Optional)": ""},
+    {"Source": "expansion", "Trans": "扩弓", "Explain(Optional)": "或 arch expansion"},
+    {"Source": "free object design", "Trans": "自由对象设计", "Explain(Optional)": "待确认：正畸中也常说 free body (自由体)"},
+    {"Source": "semi-restricted design", "Trans": "半限制设计", "Explain(Optional)": "待确认"},
+    {"Source": "contradictory mechanical design", "Trans": "矛盾性机械设计", "Explain(Optional)": "待确认"},
+    {"Source": "synergistic mechanical design", "Trans": "协同性机械设计", "Explain(Optional)": "待确认"},
+    {"Source": "neutral mechanical design", "Trans": "中性机械设计", "Explain(Optional)": "待确认"},
+    {"Source": "transpalatal arch", "Trans": "横腭杆", "Explain(Optional)": "TPA"},
+    {"Source": "CETR Academy", "Trans": "CETR学院", "Explain(Optional)": "之前漏切补上"}
+]
+
+df = pd.DataFrame(terms_data)
+df.to_excel("custom_terms.xlsx", index=False)
+print("Successfully generated custom_terms.xlsx with", len(df), "terms.")

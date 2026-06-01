@@ -91,15 +91,19 @@ def ask_gpt(prompt, response_json=True, valid_def=None, log_title='default', rea
                         valid_response = valid_def(response_data)
                         if valid_response['status'] != 'success':
                             save_log(api_set["model"], prompt, response_data, log_title="error", message=valid_response['message'])
-                            raise ValueError(f"❎ API response error: {valid_response['message']}")
+                            raise ValueError(f"Validation failed: {valid_response['message']}")
                         
                     break  # Successfully accessed and parsed, break the loop
                 except Exception as e:
-                    response_data = response.choices[0].message.content
-                    print(f"❎ json_repair parsing failed. Retrying: '''{response_data}'''")
-                    save_log(api_set["model"], prompt, response_data, log_title="error", message=f"json_repair parsing failed.")
+                    response_content = response.choices[0].message.content
+                    print(f"❎ JSON or Validation failed. Retrying: '''{response_content}'''")
+                    save_log(api_set["model"], prompt, response_content, log_title="error", message=str(e))
+                    
+                    messages.append({"role": "assistant", "content": response_content})
+                    messages.append({"role": "user", "content": f"Your previous response failed: {str(e)}\nPlease carefully review the rules, ensure NO words are modified, added, or removed, and try again."})
+                    
                     if attempt == max_retries - 1:
-                        raise Exception(f"JSON parsing still failed after {max_retries} attempts: {e}\n Please check your network connection or API key or `output/gpt_log/error.json` to debug.")
+                        raise Exception(f"JSON/Validation still failed after {max_retries} attempts: {e}\n Please check your `output/gpt_log/error.json` to debug.")
             else:
                 response_data = response.choices[0].message.content
                 break  # Non-JSON format, break the loop directly

@@ -2,12 +2,14 @@ import sys, os
 import pandas as pd
 import json
 import re
+import string
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from core.ask_gpt import ask_gpt
 from core.config_utils import load_key
 
+CLEANED_CHUNKS_FILE = "output/log/cleaned_chunks.xlsx"
 PUNCTUATED_TEXT_FILE = "output/log/punctuated_text.txt"
-TERMINOLOGY_FILE = "output/log/terminology.json"
+CUSTOM_TERMS_PATH = "custom_terms.xlsx"
 
 def get_correction_prompt(text, terms_list):
     terms_str = ", ".join(terms_list)
@@ -54,17 +56,15 @@ Provide a JSON object containing a "corrections" array.
 
 def extract_terms_list():
     terms = []
-    if os.path.exists(TERMINOLOGY_FILE):
+    if os.path.exists(CUSTOM_TERMS_PATH):
         try:
-            with open(TERMINOLOGY_FILE, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                if 'terms' in data:
-                    terms = [t.get('src', '') for t in data['terms']]
-        except Exception:
-            pass
-    return [t for t in terms if t]
+            df = pd.read_excel(CUSTOM_TERMS_PATH)
+            terms = [str(row.iloc[0]) for _, row in df.iterrows() if pd.notna(row.iloc[0])]
+        except Exception as e:
+            print(f"Failed to read {CUSTOM_TERMS_PATH}: {e}")
+    return [t for t in terms if t.strip()]
 
-def apply_corrections(text, corrections):
+def apply_corrections(text, corrections, df_words):
     # Programmatic replacement
     for c in corrections:
         snippet = c.get("context_snippet", "")
@@ -73,10 +73,31 @@ def apply_corrections(text, corrections):
         if snippet and orig and corr:
             # Check if snippet actually exists in text
             if snippet in text:
-                # Find the original word inside the snippet
-                # Use regex bounds to replace whole word safely
+                # 1. Update text
                 fixed_snippet = re.sub(rf'\b{re.escape(orig)}\b', corr, snippet, flags=re.IGNORECASE)
                 text = text.replace(snippet, fixed_snippet)
+                
+                # 2. Update df_words to maintain timeline alignment
+                orig_clean = orig.strip(string.punctuation).lower()
+                snippet_words = [w.strip(string.punctuation).lower() for w in snippet.split() if w.strip(string.punctuation)]
+                
+                df_words_list = df_words['text'].apply(lambda x: str(x).strip('"').strip(string.punctuation).lower()).tolist()
+                
+                for i in range(len(df_words_list) - len(snippet_words) + 1):
+                    match = True
+                    for j, sw in enumerate(snippet_words):
+                        if df_words_list[i+j] != sw:
+                            match = False
+                            break
+                    if match:
+                        for j, sw in enumerate(snippet_words):
+                            if sw == orig_clean:
+                                original_text = df_words.at[i+j, 'text']
+                                new_text = re.sub(rf'(?i){re.escape(orig_clean)}', corr, str(original_text))
+                                df_words.at[i+j, 'text'] = new_text
+                                break
+                        break
+
                 print(f"✅ Applied ASR correction: {orig} -> {corr} (Snippet: '{snippet}')")
             else:
                 print(f"⚠️ Could not find context snippet for {orig}->{corr}: '{snippet}'")
@@ -94,6 +115,8 @@ def asr_correction_main():
 
     with open(PUNCTUATED_TEXT_FILE, 'r', encoding='utf-8') as f:
         full_text = f.read()
+        
+    df_words = pd.read_excel(CLEANED_CHUNKS_FILE)
 
     words = full_text.split()
     batch_size = 1000
@@ -106,7 +129,10 @@ def asr_correction_main():
             batches.append(" ".join(current_batch))
             current_batch = []
     if current_batch:
-        batches.append(" ".join(current_batch))
+        if len(batches) > 0 and len(current_batch) < 200:
+            batches[-1] += " " + " ".join(current_batch)
+        else:
+            batches.append(" ".join(current_batch))
 
     def valid_contract(response_data):
         if "corrections" not in response_data or not isinstance(response_data["corrections"], list):
@@ -121,7 +147,7 @@ def asr_correction_main():
             response = ask_gpt(prompt, response_json=True, log_title=f'asr_correction_{idx}', valid_def=valid_contract, reasoning_effort='high')
             corrections = response.get("corrections", [])
             if corrections:
-                batch = apply_corrections(batch, corrections)
+                batch = apply_corrections(batch, corrections, df_words)
         except Exception as e:
             print(f"Error during ASR correction API call: {e}")
 
@@ -130,6 +156,8 @@ def asr_correction_main():
     full_corrected_text = " ".join(corrected_batches)
     with open(PUNCTUATED_TEXT_FILE, 'w', encoding='utf-8') as f:
         f.write(full_corrected_text)
+        
+    df_words.to_excel(CLEANED_CHUNKS_FILE, index=False)
 
     print("ASR correction completed.")
 

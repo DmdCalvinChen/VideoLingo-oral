@@ -9,40 +9,19 @@
 
 ## 🌟 Overview
 
-**AuraSub** is an advanced, independent evolution of the original VideoLingo project. Unlike generic translation tools aimed at casual entertainment, AuraSub is explicitly engineered for **professional knowledge sharing, academic lectures, and hardcore technical tutorials**.
+**AuraSub** is a specialized, enhanced branch derived from the original VideoLingo project. Compared to the original project, AuraSub's core differences lie in its **LLM-based intelligent sentence segmentation, phonetic ASR error correction, and highly optimized terminology translation mechanism.**
 
-It focuses heavily on precise semantic sentence breaking and strict adherence to the **Netflix single-line subtitle standard (absolutely no double-line subtitles)**. By completely replacing legacy mechanical NLP segmentations with a pure Zero-Loss LLM architecture, AuraSub ensures contextually flawless translations that are perfectly synced to the original audio timestamps at the millisecond level.
+While the original project relies on traditional NLP algorithms for sentence breaking—which often fail and cause misaligned chunks when handling complex professional lectures—AuraSub completely abandons physical NLP slicing. Instead, it uses LLMs for logical, context-aware sentence segmentation, **delivering a massive leap in segmentation accuracy and contextual coherence** compared to the original project. Furthermore, AuraSub introduces a targeted phonetic correction engine that repairs misheard professional terms at the root timestamp level, without relying on "full-scale context injection" that pollutes the translation prompt.
 
-### Core Features:
-- 🎥 **Video Ingestion:** Direct video download via yt-dlp.
-- **🎙️ Word-Level Subtitle Recognition:** Powered by WhisperX for low-illusion, precise word-level timestamping.
-- **🧠 Zero-Loss LLM Semantic Chunking:** Replaces mechanical NLP (e.g., SpaCy) with intelligent LLM-driven punctuation and logic-based chunking. It reads and structures exact word outputs natively, preventing vocabulary loss.
-- **📚 Context-Aware Paragraph Translation & Regex Terminology:** Groups sub-clauses naturally into paragraph-level prompts. It uses strict regex word-boundary matching for custom terminology injection, preventing LLM hallucinations (e.g., confusing "buckle" with "buccal"), and allowing free linguistic restructuring while maintaining perfect meaning.
-- **🪡 Robust Two-Pointer Alignment:** A custom alignment engine mathematically matches translated blocks back to their precise word-level audio timestamps, entirely eliminating the missing timeline issues of previous iterations.
+### Core Differences & Features:
+- 🎥 **Solid Foundation:** Inherits VideoLingo's excellent frame.
+- **🧠 Pure LLM Intelligent Chunking:** Replaces mechanical NLP (e.g., SpaCy). It uses an LLM to logically deduce punctuation and segment unpunctuated transcripts into cohesive clauses, offering a massive leap in chunking quality.
+- **🗣️ ASR Phonetic Correction Engine:** An exclusive pipeline that scans for misheard terms (e.g., Whisper hearing "to" instead of "two"). It uses your custom glossary and regex word boundaries to surgically fix errors in the underlying data before translation begins.
+- **📚 Optimized Terminology without Pollution:** Incorporates exact regex word-boundary matching during the translation phase. This allows the LLM to use your glossary accurately without being overwhelmed by massive "full-text terminology injections," effectively eliminating context pollution and hallucinations.
+- **🪡 Robust Two-Pointer Alignment:** A custom alignment engine mathematically matches translated blocks back to their precise word-level audio timestamps, entirely avoiding the missing timeline issues of previous iterations.
 - **✅ Netflix-Standard Exclusivity:** Enforces strict single-line subtitles only, guaranteeing a clean, professional viewing experience.
-- **🗣️ Advanced Dubbing:** Seamless integration with GPT-SoVITS, Azure, OpenAI TTS, Fish-TTS, and more.
-- 🚀 **Streamlit UI:** One-click startup and processing interface.
+- **🎙️ Advanced Dubbing:** Seamless integration with GPT-SoVITS, Azure, OpenAI TTS, and more for one-click multilingual dubbing.
 
-## 🎥 Demo
-
-<table>
-<tr>
-<td width="50%">
-
-### Translation Quality Demonstration
----
-https://github.com/user-attachments/assets/25264b5b-6931-4d39-948c-5a1e4ce42fa7
-
-</td>
-<td width="50%">
-
-### High-Quality Dubbing (GPT-SoVITS)
----
-https://github.com/user-attachments/assets/47d965b2-b4ab-4a0b-9d08-b49a7bf3508c
-
-</td>
-</tr>
-</table>
 
 ### Language Support
 

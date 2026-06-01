@@ -38,6 +38,12 @@ def split_chunks_by_chars(chunk_size=400, max_i=8):
             chunk += sentence + '\n'
             sentence_count += 1
     chunks.append(chunk.strip())
+    
+    # Merge orphan batch: if the last chunk is too small, merge it into the previous one
+    if len(chunks) > 1 and len(chunks[-1]) < chunk_size / 3:
+        chunks[-2] += '\n' + chunks[-1]
+        chunks.pop()
+        
     return chunks
 
 # Get context from surrounding chunks
@@ -66,7 +72,7 @@ def translate_all():
         return
 
     console.print("[bold green]Start Translating All...[/bold green]")
-    chunks = split_chunks_by_chars(chunk_size=500, max_i=10)
+    chunks = split_chunks_by_chars(chunk_size=1500, max_i=30)
     with open(TERMINOLOGY_FILE, 'r', encoding='utf-8') as file:
         theme_prompt = json.load(file).get('theme')
 

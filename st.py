@@ -8,7 +8,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 os.environ['PATH'] += os.pathsep + current_dir
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-st.set_page_config(page_title="VideoLingo", page_icon="docs/logo.svg")
+st.set_page_config(page_title="AuraSub", page_icon="docs/logo.svg")
 
 SUB_VIDEO = "output/output_sub.mp4"
 DUB_VIDEO = "output/output_dub.mp4"
@@ -21,11 +21,12 @@ def text_processing_section():
         This stage includes the following steps:
         <p style='font-size: 20px;'>
             1. WhisperX word-level transcription<br>
-            2. Sentence segmentation using NLP and LLM<br>
-            3. Summarization and multi-step translation<br>
-            4. Cutting and aligning long subtitles<br>
-            5. Generating timeline and subtitles<br>
-            6. Merging subtitles into the video
+            2. Punctuation restoration (Zero-loss NLP)<br>
+            3. ASR phonetic error correction (Terminology-driven)<br>
+            4. Sentence logical segmentation (Context-aware LLM)<br>
+            5. Summarization and multi-step translation<br>
+            6. Generating timeline and subtitles<br>
+            7. Merging subtitles into the video
         """, unsafe_allow_html=True)
 
         if not os.path.exists(SUB_VIDEO):
@@ -48,6 +49,9 @@ def process_text():
     with st.spinner("Adding Punctuation..."):
         from core import step2_5_add_punctuation
         step2_5_add_punctuation.add_punctuation_main()
+    with st.spinner("ASR Error Correction..."):
+        from core import step2_6_asr_correction
+        step2_6_asr_correction.asr_correction_main()
     with st.spinner("Semantic Chunking based on words..."):
         from core import step3_semantic_chunking
         step3_semantic_chunking.split_by_semantic_chunking()
