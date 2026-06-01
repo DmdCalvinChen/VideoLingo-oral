@@ -5,6 +5,7 @@ version: "2.1.2"
 api:
   key: 'not here'
   base_url: 'https://api.openai.com/v1'
+
   model: 'deepseek-v4-flash'
 
 # Language settings, written into the prompt, can be described in natural language
@@ -166,8 +167,7 @@ language_split_without_space:
 - 'zh'
 - 'ja'
 
-
-## ======================== Reasoning Settings ======================== ##
 reasoning:
   hard_tasks: 'medium'
   easy_tasks: 'low'
+
