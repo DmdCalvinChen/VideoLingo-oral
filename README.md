@@ -9,20 +9,20 @@
 
 ## 🌟 Overview
 
-**AuraSub** is a specialized, enhanced branch derived from the original VideoLingo project. Compared to the original project, AuraSub's core differences lie in its **LLM-based intelligent sentence segmentation, phonetic ASR error correction, and highly optimized terminology translation mechanism.**
+**AuraSub** is a specialized, enhanced branch derived from the original VideoLingo project. Compared to the original project, AuraSub's core differences lie in its **LLM-based intelligent sentence segmentation, phonetic ASR error correction, highly optimized terminology translation mechanism, two-tier reasoning control, and real-time subtitle preview customization.**
 
 While the original project relies on traditional NLP algorithms for sentence breaking—which often fail and cause misaligned chunks when handling complex professional lectures—AuraSub completely abandons physical NLP slicing. Instead, it uses LLMs for logical, context-aware sentence segmentation, **delivering a massive leap in segmentation accuracy and contextual coherence** compared to the original project. Furthermore, AuraSub introduces a targeted phonetic correction engine that repairs misheard professional terms at the root timestamp level, without relying on "full-scale context injection" that pollutes the translation prompt.
 
 ### Core Differences & Features:
-- 🎥 **Solid Foundation:** Inherits VideoLingo's excellent frame.
 - **🧠 Pure LLM Intelligent Chunking:** Replaces mechanical NLP (e.g., SpaCy). It uses an LLM to logically deduce punctuation and segment unpunctuated transcripts into cohesive clauses, offering a massive leap in chunking quality.
-- **🗣️ ASR Phonetic Correction Engine:** An exclusive pipeline that scans for misheard terms (e.g., Whisper hearing "to" instead of "two"). It uses your custom glossary and regex word boundaries to surgically fix errors in the underlying data before translation begins.
-- **📚 Optimized Terminology without Pollution:** Incorporates exact regex word-boundary matching during the translation phase. This allows the LLM to use your glossary accurately without being overwhelmed by massive "full-text terminology injections," effectively eliminating context pollution and hallucinations.
+- **🗣️ Zero-Loss ASR Phonetic Correction:** An exclusive pipeline that scans for misheard terms. It uses your custom glossary and regex word boundaries to surgically fix single or multi-word phonetic errors globally within the underlying timestamp data before translation begins.
+- **📚 Optimized Terminology without Pollution:** Incorporates exact regex word-boundary matching during the translation phase. This allows the LLM to use your glossary accurately without being overwhelmed by massive "full-text terminology injections," effectively eliminating context pollution.
 - **🪡 Robust Two-Pointer Alignment:** A custom alignment engine mathematically matches translated blocks back to their precise word-level audio timestamps, entirely avoiding the missing timeline issues of previous iterations.
+- **🧠 Two-Tier Reasoning Control:** Allows configuring different reasoning intensities (e.g., `low`, `medium`, `high` via API request bodies) for hard vs. easy tasks in the WebUI to maximize translation quality and cost-efficiency.
+- **🎨 Subtitle Style & Real-Time Preview:** Features a dedicated customization block for adjusting font sizes. Employs a unified ASS subtitle generation scheme for zero-overlap double-line text, and renders single-frame previews of the longest sentences instantly without repeating the translation workflow.
 - **✅ Netflix-Standard Exclusivity:** Enforces strict single-line subtitles only, guaranteeing a clean, professional viewing experience.
 - **🎙️ Advanced Dubbing:** Seamless integration with GPT-SoVITS, Azure, OpenAI TTS, and more for one-click multilingual dubbing.
-- **🧠 Two-Tier Reasoning Control:** Allows configuring different reasoning intensities (e.g., `low`, `medium`, `high` via API request bodies) for hard vs. easy tasks in the WebUI to maximize translation quality and cost-efficiency.
-- **🎨 Subtitle Style & Real-Time Preview:** Features a dedicated customization block for adjusting font sizes. Employs a unified ASS subtitle generation scheme for zero-overlap and zero-gap double-line text, and renders single-frame previews of the longest sentences instantly without repeating the translation workflow.
+- 🎥 **Solid Foundation:** Inherits VideoLingo's excellent frame.
 
 
 ### Language Support
