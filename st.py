@@ -25,11 +25,10 @@ def text_processing_section():
             3. ASR phonetic error correction (Terminology-driven)<br>
             4. Sentence logical segmentation (Context-aware LLM)<br>
             5. Summarization and multi-step translation<br>
-            6. Generating timeline and subtitles<br>
-            7. Merging subtitles into the video
+            6. Generating timeline and subtitles
         """, unsafe_allow_html=True)
 
-        if not os.path.exists(SUB_VIDEO):
+        if not os.path.exists("output/trans.srt"):
             if load_key("resolution") == "0x0":
                 st.warning("⚠️ 'Burn-in Subtitles' is disabled in the sidebar! Processing now will only generate a blank/placeholder video. Please turn it ON in the sidebar to burn subtitles into your video.", icon="⚠️")
             if st.button("Start Processing Subtitles", key="text_processing_button"):
@@ -40,8 +39,7 @@ def text_processing_section():
                     process_text()
                     st.rerun()
         else:
-            if load_key("resolution") != "0x0":
-                st.video(SUB_VIDEO)
+            st.success("✅ Text processing complete! Please proceed to the 'Subtitle Style Preview' section below to configure and burn your subtitles.")
             download_subtitle_zip_button(text="Download All Srt Files")
             
             if st.button("Archive to 'history'", key="cleanup_in_text_processing"):
@@ -69,10 +67,8 @@ def process_text():
     with st.spinner("Processing and aligning subtitles..."): 
         # step5_splitforsub.split_for_sub_main()  # Replaced by robust logic upstream
         step6_generate_final_timeline.align_timestamp_main()
-    with st.spinner("Merging subtitles to video..."):
-        step7_merge_sub_to_vid.merge_subtitles_to_video()
     
-    st.success("Subtitle processing complete! 🎉")
+    st.success("Text processing complete! 🎉")
     st.balloons()
 
 def subtitle_customization_section():
@@ -105,7 +101,7 @@ def subtitle_customization_section():
                         else:
                             st.warning("Failed to generate preview.")
             
-            if os.path.exists(SUB_VIDEO):
+            if os.path.exists("output/trans.srt"):
                 # Ensure the user must preview the current slider values before merging
                 current_target = load_key("subtitle.target_font_size")
                 current_source = load_key("subtitle.source_font_size")
@@ -116,22 +112,28 @@ def subtitle_customization_section():
                     st.session_state.get('preview_generated', False)
                 )
                 
-                if st.button("Re-merge Subtitles with New Style", key="remerge_subtitles"):
+                button_label = "Re-merge Subtitles with New Style" if os.path.exists(SUB_VIDEO) else "Burn Subtitles to Video"
+                
+                if st.button(button_label, key="remerge_subtitles"):
                     if not is_preview_valid:
-                        st.error("❌ Please click 'Generate Preview Frame' first to preview your changes before merging!")
+                        st.error("❌ Please click 'Generate Preview Frame' first to preview your changes before burning!")
                         st.toast("⚠️ Generate preview first!", icon="⚠️")
                     elif load_key("resolution") == "0x0":
-                        st.error("❌ Cannot merge subtitles: Please turn on 'Burn-in Subtitles' in the sidebar first!")
+                        st.error("❌ Cannot burn subtitles: Please turn on 'Burn-in Subtitles' in the sidebar first!")
                         st.toast("⚠️ Enable 'Burn-in Subtitles' first!", icon="⚠️")
                     else:
                         from core.config_utils import update_key
                         update_key("subtitle.target_font_size", target_size)
                         update_key("subtitle.source_font_size", source_size)
                         from core import step7_merge_sub_to_vid
-                        with st.spinner("Re-merging subtitles to video..."):
+                        with st.spinner("Burning subtitles to video..."):
                             step7_merge_sub_to_vid.merge_subtitles_to_video()
-                        st.success("Subtitles re-merged successfully!")
+                        st.success("Subtitles burned successfully! 🎉")
                         st.rerun()
+                
+                if os.path.exists(SUB_VIDEO):
+                    if load_key("resolution") != "0x0":
+                        st.video(SUB_VIDEO)
 
 def audio_processing_section():
     st.header("Dubbing")
